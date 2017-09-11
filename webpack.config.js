@@ -13,7 +13,8 @@ module.exports = {
     module: {
         rules: [
             {test: /\.vue$/, use: 'vue-loader'},
-            {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/}
+            {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},
+            {test: /\.(png|jpeg|svg)$/, use: 'url-loader?limit=1024'}
         ]
     },
 
