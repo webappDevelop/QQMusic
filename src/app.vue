@@ -4,7 +4,7 @@
 
         <router-view></router-view>
         
-        <router-link to="/header">播放</router-link>
+        <router-link to="/play">播放</router-link>
         <compo-footer class="footer"></compo-footer>
     </div>
 </template>

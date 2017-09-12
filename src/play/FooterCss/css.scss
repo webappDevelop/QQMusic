@@ -1,0 +1,40 @@
+
+
+
+.paly-footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    
+    .schedule{
+        height: 0.32rem;
+        font-size: 0.17rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0.21rem;
+
+        .range{
+            width: 100%;
+            margin: 0 0.2rem;
+            background: #5f5f5f;//31c27c
+            height: 0.04rem;
+
+        }
+
+        .progress-bar{
+            width: 0.32rem;
+            height: 0.32rem;
+            background: #31c27c;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+
+        }
+
+    }
+
+    
+}
+
+

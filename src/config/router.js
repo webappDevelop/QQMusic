@@ -2,8 +2,7 @@
 import My from '../my/my.vue'
 import MusicHall from '../musicHall/musicHall.vue'
 import Find from '../find/find.vue'
-import PlayHeader from '../play/header.vue'
-import PlayFooter from '../play/footer.vue'
+import Play from '../play/play.vue'
 
 export default {
     routes: [
@@ -23,14 +22,9 @@ export default {
             component: Find
         },
         {
-            name: 'header',
-            path: '/header',
-            component: PlayHeader
-        },
-        {
-            name: 'footer',
-            path: '/footer',
-            component: PlayFooter
+            name: 'play',
+            path: '/play',
+            component: Play
         }
     ]
 }

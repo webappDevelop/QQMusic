@@ -11,16 +11,9 @@
 <script>
 export default {
     
-    mounted() {
-        var FontSize = window.innerWidth / (750/100);
-        var html = document.querySelector('html');
-        
-        html.style.fontSize = FontSize + 'px';
-    }
+    
 }
 </script>
-
-
 
 <style lang="scss">
     .header,.footer{
