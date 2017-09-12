@@ -34,6 +34,42 @@
 
     }
 
+    .play-back{
+        padding: 0 0.2rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        font-size: 0;
+        padding: 0.24rem;
+
+        .paly-select{
+            width: 0.48rem;
+        }
+
+        .paly-cut{
+            width: 0.8rem;
+        }
+
+        .paly-transmit{
+            width: 1.28rem;
+        }
+
+    }
+
+    .play-option{
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0;
+        margin-bottom: 0.35rem;
+
+        img{
+            width: 0.48rem;
+        }
+
+    }
+
     
 }
 
