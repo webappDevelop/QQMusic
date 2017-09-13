@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main">
         <compo-header class="header"></compo-header>
 
         <router-view></router-view>
@@ -23,5 +23,9 @@
 
 <style lang="scss">
     @import './assets/css/common.scss';
+
+    .main{
+        height: 100%;
+    }
 </style>
 
