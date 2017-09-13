@@ -56,9 +56,9 @@
                         <img class="paly-select" @click="cutmodel($event)" 
                         src="./img/icon-list-circulation.svg" alt="">
                     </a>
-                    <a><img class="paly-cut" src="./img/icon-last.svg" alt=""></a>
+                    <a><img class="paly-cut" @click="lastMusic" src="./img/icon-last.svg" alt=""></a>
                     <a><img @click="play" class="paly-transmit" src="./img/icon-transmit.svg" alt=""></a>
-                    <a><img class="paly-cut" src="./img/icon-next.svg" alt=""></a>
+                    <a><img class="paly-cut" @click="lastMusic" src="./img/icon-next.svg" alt=""></a>
                     <a><img class="paly-select" src="./img/icon-song-list.svg" alt=""></a>
                 </div>
                 <div class="play-option">
@@ -68,7 +68,7 @@
                     <a><img src="./img/icon-comment.svg" alt=""></a>
                 </div>
 
-                <audio class="audio" src="http://ws.stream.qqmusic.qq.com/1891844.m4a?fromtag=46" ref="audio"></audio>
+                <audio class="audio" src="http://ws.stream.qqmusic.qq.com/201949026.m4a?fromtag=46" ref="audio"></audio>
             </div>
         </div>
     </footer>
@@ -93,12 +93,95 @@
                 sumItem: '00:00',
                 rangePlan: 0,
                 progressBar: 0,
-                repeat: 1
+                repeat: 1,
+                music: 0
+            }
+        },
+        mounted: function(){
+
+            console.log(this);
+            this.music = {
+
+                item: this,
+                audio: this.$refs.audio,//document.querySelector('.audio');
+                palyTransmit: document.querySelector('.paly-transmit'),
+                footerPlayPlay: this.$refs.footerPlayPlay,
+                transmit: ()=>{
+                    
+                    item.cut = !item.cut;
+
+                    if( item.cut ){
+                        audio.play();
+                        palyTransmit.src = suspend;
+                        footerPlayPlay.src = suspend;
+                    }else{
+                        audio.pause();
+                        palyTransmit.src = paly;
+                        footerPlayPlay.src = paly;
+                    }
+
+                    item.sumItem = transTime(audio.duration);//总时间
+
+                    audio.addEventListener('timeupdate', function () {
+                        updateProgress(audio);
+                    }, false);
+
+                },
+
+                //进度条
+                updateProgress: (audio)=> {
+
+                    var value = audio.currentTime / audio.duration;
+                    var rangePlan = document.querySelector('progress');
+                    var progressBar = document.querySelector('#plan');
+                    item.rangePlan = value * 100;
+                    item.progressBar = value * 100;
+                    
+                    if(audio.ended){
+                        palyTransmit.src = paly;
+                        item.cut = 0;
+                    }
+
+                    item.presentItem = transTime(audio.currentTime);//当前播放时间
+
+                },
+
+                //时间转换
+                transTime: (value)=> {
+                    var time = "";
+                    var h = parseInt(parseInt(value) / 3600);
+                    value %= 3600;
+                    var m = parseInt(value / 60);
+                    var s = parseInt(value % 60);
+                    if (h > 0) {
+                        time = formatTime(h + ":" + m + ":" + s);
+                    } else {
+                        time = formatTime(m + ":" + s);
+                    }
+                    
+                    return time;
+                },
+
+                //格式化时间
+                formatTime: (value)=> {
+                    var time = "";
+                    var s = value.split(':');
+                    var i = 0;
+                    for (; i < s.length - 1; i++) {
+                        time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+                        time += ":";
+                    }
+                    time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+                    
+                    item.dates = time;
+                    return time;
+                }
             }
         },
         methods: {
             
             play(){
+                
                 var item = this;
                 var audio = this.$refs.audio;//document.querySelector('.audio');
                 var palyTransmit = document.querySelector('.paly-transmit');
@@ -120,7 +203,6 @@
                     }
 
                     item.sumItem = transTime(audio.duration);//总时间
-                    // console.log(transTime(audio.duration));
 
                     audio.addEventListener('timeupdate', function () {
                         updateProgress(audio);
@@ -149,7 +231,7 @@
                 //时间转换
                 function transTime(value) {
                     var time = "";
-                    var h = parseInt(value / 3600);
+                    var h = parseInt(parseInt(value) / 3600);
                     value %= 3600;
                     var m = parseInt(value / 60);
                     var s = parseInt(value % 60);
@@ -206,8 +288,15 @@
                     this.repeat = 0;
                 }
 
+            },
+
+            lastMusic(){
+                
+                
+
             }
-        },
+
+        }
         
     }
 </script>
