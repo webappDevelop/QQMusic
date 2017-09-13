@@ -28,11 +28,7 @@
     }
 </script>
 
-<style lang="scss">
-    .header,.footer{
-        display: none;
-    }
-</style>
+
 
 <style>
     body{
