@@ -6,7 +6,6 @@
                 最近播放
             </div>
         </div>
-
         <div class="recent-play-round">
             <div class="round-play ">
                 <img src="../img/icon-play-now.svg" alt="">
@@ -17,19 +16,20 @@
                 <p>管理</p>
             </div>
         </div>
-        <div class="main">
-            <div class="music-main">
-                <div class="music-info">
-                    <p>安静的听完这首歌</p>
-                    <p><img src="../img/icon-counter.svg" alt="">覃桢 · 366次告白</p>
-                </div>
-                <div class="music-listen-time">
-                    <img src="../img/icon-headset-gray.svg" alt="">
-                    <p><span> 6</span></p>
-                    <p><img src="../img/icon-more.svg" alt=""></p>
+        <div class="recents">
+            <div class="recent-play-main">
+                <div class="music-main">
+                    <div class="music-info">
+                        <p>安静的听完这首歌</p>
+                        <p><img src="../img/icon-counter.svg" alt="">覃桢 · 366次告白</p>
+                    </div>
+                    <div class="music-listen-time">
+                        <img src="../img/icon-headset-gray.svg" alt="">
+                        <p><span> 6</span></p>
+                        <p><img src="../img/icon-more.svg" alt=""></p>
+                    </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </template>
@@ -41,10 +41,14 @@ export default {
 </script>
 
 <style lang="scss">
+    .recents{
+        height: calc(100% - 1.85rem);
+        overflow: scroll;
+    }
     p{
         margin: 0
     }
-    .main{
+    .recent-play-main{
         padding-left: .3rem;
     }
     .music-main{
@@ -96,11 +100,10 @@ export default {
     .recent-play{
         font-size: 0;
         width: 100%;
-        overflow: hidden;
+        height: 100%;
 
         &-mod{
             width: 100%;
-            height: 100%;
         }
         &-round{
             font-size: 0.3rem;
@@ -113,7 +116,6 @@ export default {
             img{
                 width: .46rem;
                 margin: 0 .25rem;
-                // margin-top: calc((1.1rem - 0.46rem) / 2 );
             }
             p{
                 line-height: 1.1rem;

@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="main">
         <compo-header class="header"></compo-header>
 
         <router-view></router-view>
         
-        <!-- <router-link to="/play">播放</router-link> -->
-        <!-- <compo-footer class="footer"></compo-footer> -->
+        <router-link to="/play">播放</router-link>
+        <compo-footer class="footer"></compo-footer>
     </div>
 </template>
 
@@ -24,5 +24,9 @@
 
 <style lang="scss">
     @import './assets/css/common.scss';
+
+    .main{
+        height: 100%;
+    }
 </style>
 

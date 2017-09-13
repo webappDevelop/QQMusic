@@ -37,7 +37,7 @@
                     <p><span>477</span></p>
                 </div> 
                 <div>
-                    <router-link to="/History">
+                    <router-link to="/history">
                         <img src="./img/icon-play-lately.svg">
                         <p> 最近播放</p>
                         <p><span>477</span></p>
@@ -169,6 +169,7 @@
 
 
 <style lang="scss" scoped>
+
     .collect-music{
         font-size: .3rem;
         height: 1.1rem;
@@ -502,7 +503,10 @@
         }
         
     }
-
+    .container{
+        height: calc(100% - 2.68rem);
+        overflow: scroll;
+    }
     
 </style>
 
