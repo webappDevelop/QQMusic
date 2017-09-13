@@ -3,9 +3,9 @@
         <nav class="nav">
             <div><i></i></div>
             <div class="list">
-                <a href="#">我的</a>
-                <a href="#">音乐馆</a>
-                <a href="#">发现</a>
+                <router-link to="my">我的</router-link>
+                <router-link to="musicHall">音乐馆</router-link>
+                <router-link to="find">我的</router-link>
             </div>
             <div></div>
         </nav>
@@ -13,7 +13,13 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        data(){
+            return{
+                selected: 1
+            }
+        }
+    }
 </script>
 
 
@@ -36,6 +42,10 @@
             flex: 5;
             line-height: 0.74rem;
             
+
+            .selected{
+                font-weight: bold;
+            }
             a{
                 display: inline-block;
                 padding: 0 0.25rem;
