@@ -131,7 +131,7 @@
 <style lang="scss" scoped>
 
     .box{
-        height: calc( 100% - 2.68rem );
+        height: calc( 100% - 1.83rem );
         overflow: scroll;
     }
 
@@ -203,7 +203,6 @@
 
     .ListTheMenu{
         width: 100%;
-        height: 100%;
 
         .PlaylistRecommended-body{
             max-height: 7.1rem;
