@@ -3,6 +3,7 @@ import My from '../my/my.vue'
 import MusicHall from '../musicHall/musicHall.vue'
 import Find from '../find/find.vue'
 import Play from '../play/play.vue'
+import History from '../my/history/history.vue'
 
 export default {
     routes: [
@@ -25,6 +26,10 @@ export default {
             name: 'play',
             path: '/play',
             component: Play
+        },{
+            name: 'history',
+            path: '/history',
+            component: History
         }
     ]
 }
