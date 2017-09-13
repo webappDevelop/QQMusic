@@ -3,7 +3,9 @@
         <div class="ranking">
             <div class="ranking-mod">
                 <div class="menu-btn">
-                    <img src="./img/the-left-arrow.svg">
+                    <router-link to="musicHall">
+                        <img src="./img/the-left-arrow.svg">
+                    </router-link>
                     排行
                 </div>
                 
@@ -25,6 +27,92 @@
                             <img src="./img/the-right-arrow.svg">
                         </div>
                     </div>
+
+                    <div class="ranking-body-select">
+                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <div class="earphone">441.1万</div>
+                            <img src="../img/play.svg">
+                        </div>
+
+                        <div class="select-music">
+                            <ul>
+                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
+                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
+                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
+                            </ul>
+
+                            <img src="./img/the-right-arrow.svg">
+                        </div>
+                    </div>
+
+                    <div class="ranking-body-select">
+                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <div class="earphone">441.1万</div>
+                            <img src="../img/play.svg">
+                        </div>
+
+                        <div class="select-music">
+                            <ul>
+                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
+                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
+                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
+                            </ul>
+
+                            <img src="./img/the-right-arrow.svg">
+                        </div>
+                    </div>
+
+                    <div class="ranking-body-select">
+                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <div class="earphone">441.1万</div>
+                            <img src="../img/play.svg">
+                        </div>
+
+                        <div class="select-music">
+                            <ul>
+                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
+                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
+                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
+                            </ul>
+
+                            <img src="./img/the-right-arrow.svg">
+                        </div>
+                    </div>
+
+                    <div class="ranking-body-select">
+                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <div class="earphone">441.1万</div>
+                            <img src="../img/play.svg">
+                        </div>
+
+                        <div class="select-music">
+                            <ul>
+                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
+                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
+                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
+                            </ul>
+
+                            <img src="./img/the-right-arrow.svg">
+                        </div>
+                    </div>
+
+                    <div class="ranking-body-select">
+                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <div class="earphone">441.1万</div>
+                            <img src="../img/play.svg">
+                        </div>
+
+                        <div class="select-music">
+                            <ul>
+                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
+                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
+                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
+                            </ul>
+
+                            <img src="./img/the-right-arrow.svg">
+                        </div>
+                    </div>
+
 
                     <h3 class="ranking-body-title">全球榜</h3>
                     <div class="list-of-the-world">
@@ -60,8 +148,7 @@
 </script>
 
 <style lang="scss">
-    .header,
-    .footer{
+    .header{
         display: none;
     }
 
