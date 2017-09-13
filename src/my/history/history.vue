@@ -17,14 +17,16 @@
                 <p>管理</p>
             </div>
         </div>
-        <div class="music-main">
-            <div>
+        <div class="main">
+            <div class="music-main">
                 <div class="music-info">
                     <p>安静的听完这首歌</p>
-                    <p>覃桢 · 366次告白</p>
+                    <p><img src="../img/icon-counter.svg" alt="">覃桢 · 366次告白</p>
                 </div>
-                <div>
-
+                <div class="music-listen-time">
+                    <img src="../img/icon-headset-gray.svg" alt="">
+                    <p><span> 6</span></p>
+                    <p><img src="../img/icon-more.svg" alt=""></p>
                 </div>
             </div>
             
@@ -39,14 +41,53 @@ export default {
 </script>
 
 <style lang="scss">
-p{
-    margin: 0
-}
-    .music-main{
+    p{
+        margin: 0
+    }
+    .main{
         padding-left: .3rem;
-
+    }
+    .music-main{
+        display: flex;
+        border-bottom: 0.01rem solid #e6e6e6;
         .music-info{
+            width: 5.48rem;
+            height: 0.7rem;
+            padding: 0.2rem 0;
             font-size: 0.3rem;
+            p{
+                width: calc(100% - 0.4rem)
+            }
+            img{
+                float: left;
+                margin-right: .1rem;
+            }
+            >:first-child{
+                font-size: 0.29rem;
+                line-height: 0.29rem;
+            }
+            
+            >:last-child{
+                font-size: 0.21rem;
+                color: #666;
+                margin-top: 0.08rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .music-listen-time{
+            display: flex;
+            font-size: 0.18rem;
+            line-height: 1.1rem;
+            color: #666;
+            img{
+                width: 0.24rem;
+                margin-right: .2rem;
+            }
+            span{
+                margin-right: 0.35rem;
+            }
         }
     }
 
@@ -74,10 +115,15 @@ p{
                 margin: 0 .25rem;
                 // margin-top: calc((1.1rem - 0.46rem) / 2 );
             }
+            p{
+                line-height: 1.1rem;
+            }
         }
         .round-play{
             width: 5.97rem;
             display: flex;
+
+            
         }
         .round-play-manager{
             flex: 1;
