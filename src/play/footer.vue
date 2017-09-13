@@ -1,6 +1,6 @@
 
 <template>
-    <footer>
+    <footer :class="cutSchema ? '' : 'footer'">
         <div class="footerPlay" v-show="cutSchema" @click="cutSchema=0">
             <div class="footerPlay-cd"></div>
             <div class="footerPlay-name">
