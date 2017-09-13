@@ -9,6 +9,9 @@
             </div>
             <div></div>
         </nav>
+        <div class="search">
+            
+        </div>
     </header>
 </template>
 
