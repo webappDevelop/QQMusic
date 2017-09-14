@@ -5,6 +5,7 @@ import Find from '../find/find.vue'
 import Play from '../play/play.vue'
 import History from '../my/history/history.vue'
 import Ranking from '../musicHall/ranking/ranking.vue'
+import List from '../my/list/list.vue'
 
 export default {
     routes: [
@@ -32,6 +33,11 @@ export default {
             name: 'history',
             path: '/history',
             component: History
+        },
+        {
+            name: 'ranking',
+            path: '/ranking',
+            component: Ranking
         },
         {
             name: 'ranking',
