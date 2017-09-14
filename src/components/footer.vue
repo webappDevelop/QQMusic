@@ -160,23 +160,32 @@
                 //进度条
                 updateProgress: function(audio) {
                     
-                    var value = audio.currentTime / audio.duration;
+                    var value = audio.currentTime / audio.duration || 0;
                     
                     this.item.rangePlan = value * 100;
                     this.item.progressBar = value * 100;
                     
-                    if( this.item.cut ){
+                    if( this.item.cut && audio.ended ){
                         
-                        if(audio.ended){
-                            
-                            this.palyTransmit.src = paly;
-                            this.item.rangePlan = 0;
-                            this.item.progressBar = 0;
-                            window.cancelAnimationFrame(this.key);
-                            this.item.cut = 0;
+                        this.palyTransmit.src = paly;
+                        this.item.rangePlan = 0;
+                        this.item.progressBar = 0;
+                        window.cancelAnimationFrame(this.key);
+
+                        if( this.item.repeat == 2 ){
+                            this.transmit();
+                        }
+
+                        if( this.item.repeat == 0 ){
+                            this.switch(2);
+                        }
+
+                        if( this.item.repeat == 1 ){
+                            this.switch(1);
                         }
 
                     }
+
                     this.item.presentItem = this.transTime(audio.currentTime);//当前播放时间
                     
                 },
@@ -226,22 +235,34 @@
                     }
                     
                 },
+                //切歌
                 switch: function( judge ){
-
-                    var srcIndex = this.item.audio.currentSrc.indexOf('src/');
-                    var src = this.item.audio.currentSrc.slice(srcIndex,this.item.audio.currentSrc.length);
-                    var index = this.songList.indexOf(src);
-                    console.log(src);
-                    console.log(index);
-                    index += judge;
-                    if( index == 0 ){
-                        index = this.songList.length;
+                    
+                    var random = Math.floor(Math.random()*this.songList.length);
+                    
+                    if( judge == 2 ){
+                        index = random;
                     }
 
-                    if( index == this.songList.length ){
-                        index = -1;
-                    }
+                    if( judge == -1 || judge == 1 ){
+                        
+                        var srcIndex = this.item.audio.currentSrc.indexOf('src/');
+                        var src = this.item.audio.currentSrc.slice(srcIndex,this.item.audio.currentSrc.length);
+                        var index = this.songList.indexOf(src);
 
+                        index += judge;
+
+                        if( index == -1 ){
+                            index = this.songList.length-1;
+                        }
+                        
+                        if( index == this.songList.length ){
+                            
+                            index = 0;
+                        }
+
+                    }
+                    
                     this.item.audio.src = this.songList[index];
                     
                     this.init();
@@ -269,7 +290,6 @@
                 if( !this.cut ){
                     this.progressBar = this.progressBar;
                     this.rangePlan = this.rangePlan;
-                    console.log(this.rangePlan);
                 }
 
             },
@@ -278,29 +298,46 @@
                 var eve = event.target;
                 this.repeat++;
 
+                //列表循环
                 if( this.repeat == 1 ){
                     eve.src = circulate;
                 }
 
+                //单曲循环
                 if( this.repeat == 2 ){
                     eve.src = one;
                 }
 
+                //随机播放
                 if( this.repeat == 3 ){
                     eve.src = random;
                     this.repeat = 0;
                 }
-
+                
             },
 
             lastMusic(){
 
-                this.music.switch(-1);
+                if( this.repeat == 0 ){
+                    this.music.switch(2);
+                }
+                
+                if( this.repeat == 1 || this.repeat == 2 ){
+                    this.music.switch(-1);
+                }
                 
             },
 
             nextMusic(){
-                this.music.switch(1);
+
+                if( this.repeat == 0 ){
+                    this.music.switch(2);
+                }
+
+                if( this.repeat == 1 || this.repeat == 2 ){
+                    this.music.switch(1);
+                }
+
             }
 
         }
