@@ -34,8 +34,8 @@ export default {
         });     
     },
 
-    jsonp(url, options = {param: 'jsonpCallback'}){
-        url = url + (url.indexOf('?') == -1 ? '?' : '&') + this.serializeParam(this.params);
+    jsonp(url, params, options = {param: 'jsonpCallback'}){
+        url = url + (url.indexOf('?') == -1 ? '?' : '&') + this.serializeParam(params || this.params);
         return new Promise((resolve, reject) => {
             Jsonp(url,options,(err,data) => {
                 if(err){

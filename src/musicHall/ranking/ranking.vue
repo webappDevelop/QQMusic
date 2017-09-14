@@ -1,5 +1,4 @@
 <template>
-    <transition name="slide">
         <div class="ranking">
             <div class="ranking-mod">
                 <div class="menu-btn">
@@ -11,123 +10,36 @@
                 
                 <div class="ranking-body">
                     <h3 class="ranking-body-title">QQ音乐巅峰榜</h3>
-                    <div class="ranking-body-select">
-                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                            <div class="earphone">441.1万</div>
+                    <div class="ranking-body-select" v-for="item in sliders.List">
+                        <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
+                            <div class="earphone">{{ item.listennum }}万</div>
                             <img src="../img/play.svg">
                         </div>
 
                         <div class="select-music">
                             <ul>
-                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
-                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
-                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
+                                <li><i>1</i> {{ item.songlist[0].songname }}<span> - {{ item.songlist[0].singername }}</span></li>
+                                <li><i>2</i> {{ item.songlist[1].songname }}<span> - {{ item.songlist[1].singername }}</span></li>
+                                <li><i>3</i> {{ item.songlist[2].songname }}<span> - {{ item.songlist[2].singername }}</span></li>
                             </ul>
 
                             <img src="./img/the-right-arrow.svg">
                         </div>
                     </div>
-
-                    <div class="ranking-body-select">
-                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                            <div class="earphone">441.1万</div>
-                            <img src="../img/play.svg">
-                        </div>
-
-                        <div class="select-music">
-                            <ul>
-                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
-                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
-                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
-                            </ul>
-
-                            <img src="./img/the-right-arrow.svg">
-                        </div>
-                    </div>
-
-                    <div class="ranking-body-select">
-                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                            <div class="earphone">441.1万</div>
-                            <img src="../img/play.svg">
-                        </div>
-
-                        <div class="select-music">
-                            <ul>
-                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
-                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
-                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
-                            </ul>
-
-                            <img src="./img/the-right-arrow.svg">
-                        </div>
-                    </div>
-
-                    <div class="ranking-body-select">
-                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                            <div class="earphone">441.1万</div>
-                            <img src="../img/play.svg">
-                        </div>
-
-                        <div class="select-music">
-                            <ul>
-                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
-                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
-                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
-                            </ul>
-
-                            <img src="./img/the-right-arrow.svg">
-                        </div>
-                    </div>
-
-                    <div class="ranking-body-select">
-                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                            <div class="earphone">441.1万</div>
-                            <img src="../img/play.svg">
-                        </div>
-
-                        <div class="select-music">
-                            <ul>
-                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
-                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
-                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
-                            </ul>
-
-                            <img src="./img/the-right-arrow.svg">
-                        </div>
-                    </div>
-
-                    <div class="ranking-body-select">
-                        <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                            <div class="earphone">441.1万</div>
-                            <img src="../img/play.svg">
-                        </div>
-
-                        <div class="select-music">
-                            <ul>
-                                <li><i>1</i> 追梦赤子心<span> - 鹿晗</span></li>
-                                <li><i>2</i> 以父之名(Live)<span> - 吴亦凡/PG One</span></li>
-                                <li><i>3</i> 不用去猜(Live)<span> - Jony J</span></li>
-                            </ul>
-
-                            <img src="./img/the-right-arrow.svg">
-                        </div>
-                    </div>
-
 
                     <h3 class="ranking-body-title">全球榜</h3>
-                    <div class="list-of-the-world">
+                    <div class="list-of-the-world" v-for="item in sliderss.List">
                         <div class="world-select">
-                            <div class="select-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                                <div class="earphone">442万</div>
+                            <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
+                                <div class="earphone">{{ item.listennum }}万</div>
                                 <img src="../img/play.svg">
                             </div>
-                            <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                            <h3>{{ item.ListName }}</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </transition>
 </template>
 
 <script>
@@ -136,21 +48,40 @@
     export default {
         data(){
             return{
-                sliders: []
+                sliders: [],
+                sliderss: []
             }
         },
 
         async created(){
-            let data = await Ajax.jsonp('https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg?g_tk=792116527&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1505284771940');
-            this.sliders = data.data.songList;
+            let data;
+            
+            await Ajax.jsonp('//c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_opt.fcg',{
+                page:'index',
+                format:'html',
+                tpl:'macv4',
+                v8debug:1
+            },{param: 'jsonCallback',name: 'jsonCallback'}).then((res) => {
+                data = res;
+            });
+
+            console.log( data[1] );
+
+            for( var i=0; i<data[0].List.length; i++ ){
+                data[0].List[i].listennum = Math.ceil(data[0].List[i].listennum / 10000);
+            }
+
+            for( var n=0; n<data[1].List.length; n++ ){
+                data[1].List[n].listennum = Math.ceil(data[1].List[n].listennum / 10000);
+            }
+
+            this.sliders = data[0];
+            this.sliderss = data[1];
         }
     }
 </script>
 
 <style lang="scss">
-    // .header{
-    //     display: none;
-    // }
 
     ul,
     li{
@@ -164,6 +95,9 @@
     }
 
     .ranking{
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 12.25rem;
         background: #f4f4f4;
@@ -326,7 +260,7 @@
                 margin: 0.18rem 0;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 1;
                 overflow: hidden;
                 font-weight: normal;
             }
