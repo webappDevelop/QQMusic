@@ -2,8 +2,10 @@
     <div class="main">
         <compo-header class="header"></compo-header>
 
+    <transition name="slide">
         <router-view></router-view>
-        
+    </transition>
+    
         <compo-footer></compo-footer>
     </div>
 </template>
@@ -23,9 +25,5 @@
 
 <style lang="scss">
     @import './assets/css/common.scss';
-
-    .main{
-        height: 100%;
-    }
 </style>
 

@@ -32,7 +32,10 @@ ul{
     }
 }
 
-    
+.main{
+    height: 100%;
+}
+
 .slide-enter-active,
 .slide-leave-active{
     transition: all .3s;

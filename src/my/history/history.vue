@@ -1,48 +1,46 @@
 <template>
-    <transition name="slide">
-        <div class="recent-play">
-            <div class="recent-play-mod">
-                <div class="menu-btn">
+    <div class="recent-play">
+        <div class="recent-play-mod">
+            <div class="menu-btn">
 
-                    <router-link to="/my"><img src="../img/the-left-arrow.svg"></router-link>
-                    
-                    最近播放
-                </div>
+                <router-link to="/my"><img src="../img/the-left-arrow.svg"></router-link>
+                
+                最近播放
             </div>
-            <div class="recent-play-round">
-                <div class="round-play ">
-                    <img src="../img/icon-play-now.svg" alt="">
-                    <p>随机播放全部</p>
-                </div>
-                <div class="round-play-manager">
-                    <img src="../img/icon-list-collect.svg" alt="">
-                    <p>管理</p>
-                </div>
+        </div>
+        <div class="recent-play-round">
+            <div class="round-play ">
+                <img src="../img/icon-play-now.svg" alt="">
+                <p>随机播放全部</p>
             </div>
-            <div class="recents">
-                <div class="recent-play-main">
-                    <div class="music-main">
-                        <div class="music-info">
-                            <p>安静的听完这首歌</p>
-                            <p><img src="../img/icon-counter.svg" alt="">覃桢 · 366次告白</p>
-                        </div>
-                        <div class="music-listen-time">
-                            <img src="../img/icon-headset-gray.svg" alt="">
-                            <p><span> 6</span></p>
-                            <p><img src="../img/icon-more.svg" alt=""></p>
-                        </div>
+            <div class="round-play-manager">
+                <img src="../img/icon-list-collect.svg" alt="">
+                <p>管理</p>
+            </div>
+        </div>
+        <div class="recents">
+            <div class="recent-play-main">
+                <div class="music-main">
+                    <div class="music-info">
+                        <p>安静的听完这首歌</p>
+                        <p><img src="../img/icon-counter.svg" alt="">覃桢 · 366次告白</p>
+                    </div>
+                    <div class="music-listen-time">
+                        <img src="../img/icon-headset-gray.svg" alt="">
+                        <p><span> 6</span></p>
+                        <p><img src="../img/icon-more.svg" alt=""></p>
                     </div>
                 </div>
             </div>
         </div>
-    </transition>
+    </div>
 </template>
 
 
 <style lang="scss" scoped>
 
     .recents{
-        height: calc(100% - 1.85rem);
+        height: calc(100% - 2.95rem);
         overflow: scroll;
     }
     p{
@@ -95,16 +93,15 @@
         }
     }
 
-
-
     .recent-play{
         font-size: 0;
         width: 100%;
         height: 100%;
         position: absolute;
         top: 0;
-        z-index: 99;
         background: #fff;
+        overflow: hidden;
+
         &-mod{
             width: 100%;
         }
