@@ -4,7 +4,6 @@
 
         <router-view></router-view>
         
-        <!-- <router-link to="/play">播放</router-link> -->
         <compo-footer></compo-footer>
     </div>
 </template>
