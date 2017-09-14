@@ -1,75 +1,106 @@
 <template>
-    <div class="MusicHall">
-        <div class="classifyMenu">
-            <div class="singer">
-                <img src="./img/singer.svg" />
-                <i>歌手</i>
-            </div>
-            <div class="ranking">
-                <img src="./img/ranking-list.svg" />
-                <i>排行</i>
-            </div>
-            <div class="broadcasting">
-                <img src="./img/broadcasting-station.svg" />
-                <i>电台</i>
-            </div>
-            <div class="classify">
-                <img src="./img/classify.svg" />
-                <i>分类歌单</i>
-            </div>
-            <div class="mv">
-                <img src="./img/mv.svg" />
-                <i>视频MV</i>
-            </div>
-            <div class="special">
-                <img src="./img/special.svg" />
-                <i>数字专辑</i>
-            </div>
-        </div>
-
-        <div class="ListTheMenu">
-            <div class="MusicLibraryTitle">
-                <div class="title">歌单推荐</div>
-                <img src="./img/pull-down-menu.svg">
-            </div>
-
-            <div class="PlaylistRecommended-body">
-                <div class="individual" v-for="item in sliders">
-                    <div class="individual-img" :style="'background: url('+item.picUrl+') center center; background-size: 100%;'">
-                        <div class="earphone">{{ item.accessnum }}万</div>
-                        <img src="./img/play.svg">
-                    </div>
-                    <h3>{{ item.songListDesc }}</h3>
+    <div class="box">
+        <div class="MusicHall">
+            <div class="classifyMenu">
+                <div class="singer">
+                    <img src="./img/singer.svg" />
+                    <i>歌手</i>
+                </div>
+                <router-link tag="div" class="ranking-li" to="ranking">
+                    <img src="./img/ranking-list.svg" />
+                    <i>排行</i>
+                </router-link>
+                <div class="broadcasting">
+                    <img src="./img/broadcasting-station.svg" />
+                    <i>电台</i>
+                </div>
+                <div class="classify">
+                    <img src="./img/classify.svg" />
+                    <i>分类歌单</i>
+                </div>
+                <div class="mv">
+                    <img src="./img/mv.svg" />
+                    <i>视频MV</i>
+                </div>
+                <div class="special">
+                    <img src="./img/special.svg" />
+                    <i>数字专辑</i>
                 </div>
             </div>
-        </div>
 
-        <div class="ListTheMenu">
-            <div class="MusicLibraryTitle">
-                <div class="title">新歌速递</div>
-                <img src="./img/pull-down-menu.svg">
+            <div class="ListTheMenu">
+                <div class="MusicLibraryTitle">
+                    <div class="title">歌单推荐</div>
+                    <img src="./img/pull-down-menu.svg">
+                </div>
+
+                <div class="PlaylistRecommended-body">
+                    <div class="individual" v-for="item in sliders">
+                        <div class="individual-img" :style="'background: url('+item.picUrl+') center center; background-size: 100%;'">
+                            <div class="earphone">{{ item.accessnum }}万</div>
+                            <img src="./img/play.svg">
+                        </div>
+                        <h3>{{ item.songListDesc }}</h3>
+                    </div>
+                </div>
             </div>
 
-            <div class="newSong-body">
-                <div class="individual">
-                    <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                        <h3>新歌</h3>
-                    </div>
-                    <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
+            <div class="ListTheMenu">
+                <div class="MusicLibraryTitle">
+                    <div class="title">新歌速递</div>
+                    <img src="./img/pull-down-menu.svg">
                 </div>
 
-                <div class="individual">
-                    <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                        <h3>新碟</h3>
+                <div class="newSong-body">
+                    <div class="individual">
+                        <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <h3>新歌</h3>
+                        </div>
+                        <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
                     </div>
-                    <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
+
+                    <div class="individual">
+                        <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <h3>新碟</h3>
+                        </div>
+                        <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
+                    </div>
+
+                    <div class="individual">
+                        <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
+                            <h3>影视</h3>
+                        </div>
+                        <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ListTheMenu">
+                <div class="MusicLibraryTitle">
+                    <div class="title">专栏</div>
+                    <img src="./img/pull-down-menu.svg">
                 </div>
 
-                <div class="individual">
-                    <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
-                        <h3>影视</h3>
+                <div class="column-body">
+                    <div class="column-individual">
+                        <img src="./img/140625.jpg">
+                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
                     </div>
-                    <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
+
+                    <div class="column-individual">
+                        <img src="./img/140625.jpg">
+                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                    </div>
+
+                    <div class="column-individual">
+                        <img src="./img/140625.jpg">
+                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                    </div>
+
+                    <div class="column-individual">
+                        <img src="./img/140625.jpg">
+                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,6 +109,7 @@
 
 <script>
     import Ajax from '../assets/js/ajax.js'
+
     export default {
         data(){
             return{
@@ -91,16 +123,21 @@
                 data.data.songList[i].accessnum = (data.data.songList[i].accessnum / 10000).toFixed(1)
             }
             this.sliders = data.data.songList;
-
-            console.log( this.sliders );
         }
     }
 </script>
 
 
 <style lang="scss" scoped>
+
+    .box{
+        height: calc( 100% - 1.83rem );
+        overflow: scroll;
+    }
+
     .MusicHall{
         width: 100%;
+        height: 100%;
         margin: 0;
     }
 
@@ -135,7 +172,7 @@
             height: 0.59rem;
         }
 
-        .ranking img{
+        .ranking-li img{
             width: 0.6rem;
             height: 0.6rem;
         }
@@ -166,10 +203,9 @@
 
     .ListTheMenu{
         width: 100%;
-        height: 100%;
 
         .PlaylistRecommended-body{
-            max-height: 6.8rem;
+            max-height: 7.1rem;
             overflow: hidden;
         }
 
@@ -180,7 +216,6 @@
             margin-right: 0.33333%;
 
             &>h3{
-                height: 0.6rem;
                 font-size: 0.22rem;
                 padding: 0rem 0.13rem;
                 margin: 0.18rem 0;
@@ -232,6 +267,36 @@
 
             .individual>h3{
                 font-weight: normal;
+            }
+        }
+
+        .column-body{
+            height: 5.04rem;
+            overflow: hidden;
+
+            .column-individual{
+                float: left;
+                width: 49.5%;
+                height: auto;
+
+                img{
+                    display: block;
+                    width: 100%;
+                }
+
+                h3{
+                    font-size: 0.22rem;
+                    padding: 0rem 0.13rem;
+                    margin: 0.18rem 0;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                }
+            }
+
+            .column-individual:nth-child(odd){
+                margin-right: 1%;
             }
         }
     }
