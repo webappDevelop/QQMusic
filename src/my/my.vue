@@ -504,7 +504,7 @@
         
     }
     .container{
-        height: calc(100% - 2.68rem);
+        height: calc(100% - 2.68rem );
         overflow: scroll;
     }
     

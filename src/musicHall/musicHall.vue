@@ -131,7 +131,7 @@
 <style lang="scss" scoped>
 
     .box{
-        height: calc( 100% - 1.83rem );
+        height: calc( 100% - 2.68rem );
         overflow: scroll;
     }
 

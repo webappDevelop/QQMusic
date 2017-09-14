@@ -2,7 +2,9 @@
     <div class="recent-play">
         <div class="recent-play-mod">
             <div class="menu-btn">
-                <img src="../img/the-left-arrow.svg">
+
+                <router-link to="/my"><img src="../img/the-left-arrow.svg"></router-link>
+                
                 最近播放
             </div>
         </div>
@@ -34,15 +36,11 @@
     </div>
 </template>
 
-<script>
-export default {
 
-}
-</script>
+<style lang="scss" scoped>
 
-<style lang="scss">
     .recents{
-        height: calc(100% - 1.85rem);
+        height: calc(100% - 2.95rem);
         overflow: scroll;
     }
     p{
@@ -95,12 +93,14 @@ export default {
         }
     }
 
-
-
     .recent-play{
         font-size: 0;
         width: 100%;
         height: 100%;
+        position: absolute;
+        top: 0;
+        background: #fff;
+        overflow: hidden;
 
         &-mod{
             width: 100%;
@@ -156,11 +156,6 @@ export default {
             top: 0.21rem;
             width: 0.3rem;
         }
-    }
-
-    .header,
-    .footer{
-        display: none;
     }
     
 </style>
