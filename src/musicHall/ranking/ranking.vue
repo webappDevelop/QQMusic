@@ -148,9 +148,9 @@
 </script>
 
 <style lang="scss">
-    .header{
-        display: none;
-    }
+    // .header{
+    //     display: none;
+    // }
 
     ul,
     li{
