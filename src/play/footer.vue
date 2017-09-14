@@ -101,18 +101,21 @@
                 progressBar: 0,
                 repeat: 1,
                 count: 0,
+                audio: 0,
                 music: 0
             }
         },
         mounted: function(){
 
+            this.audio = this.$refs.audio;
+            
             // var vm = this;
             this.music = {
                 
                 songList: ['src/play/mp3/1.mp3','src/play/mp3/2.mp3','src/play/mp3/3.mp3'],
                 item: this,
                 key: null,//用来清除帧动画
-                audio: this.$refs.audio,//document.querySelector('.audio');
+                //document.querySelector('.audio');
                 palyTransmit: document.querySelector('.paly-transmit'),
                 footerPlayPlay: this.$refs.footerPlayPlay,
                 playcd: this.$refs.playcd,//播放时的专辑图片
@@ -120,7 +123,7 @@
                 rangePlan: document.querySelector('.progress'),
                 progressBar: document.querySelector('#plan'),
                 transmit: function(){
-                    
+
                     this.cut = !this.cut;
                     
                     var frame = ()=>{
@@ -131,24 +134,28 @@
                     }
 
                     if( this.cut ){
-                        this.audio.play();
+                        this.item.audio.play();
                         this.palyTransmit.src = suspend;
                         this.footerPlayPlay.src = suspend;
                         frame();
                     }else{
-                        this.audio.pause();
+                        this.item.audio.pause();
                         this.palyTransmit.src = paly;
                         this.footerPlayPlay.src = paly;
 
                         window.cancelAnimationFrame(this.key);
                     }
-
-                    this.item.sumItem = this.transTime(this.audio.duration);//总时间
                     
-                    this.audio.addEventListener('timeupdate', ()=> {
-                        this.updateProgress(this.audio);
+                    this.item.sumItem = this.transTime(this.item.audio.duration);
+
+                    this.item.audio.ondurationchange = ()=>{
+                        this.item.sumItem = this.transTime(this.item.audio.duration);//总时间
+                    }
+                    
+                    this.item.audio.addEventListener('timeupdate', ()=> {
+                        this.updateProgress(this.item.audio);
                     }, false);
-                    console.log(this.audio);
+
                 },
 
                 //进度条
@@ -161,6 +168,8 @@
                     
                     if(audio.ended){
                         this.palyTransmit.src = paly;
+                        audio.currentTime = 0;
+                        window.cancelAnimationFrame(this.key);
                         this.cut = 0;
                     }
 
@@ -198,6 +207,11 @@
                     
                     this.dates = time;
                     return time;
+                },
+
+                init: function(){
+                    this.item.presentItem = 0;//时间
+                    
                 }
             }
         },
@@ -206,83 +220,6 @@
             play(){
                 
                 this.music.transmit();
-
-                // var item = this;
-                // var audio = this.$refs.audio;//document.querySelector('.audio');
-                // var palyTransmit = document.querySelector('.paly-transmit');
-                // var footerPlayPlay = this.$refs.footerPlayPlay;
-                // transmit();
-
-                // function transmit(){
-                    
-                //     item.cut = !item.cut;
-
-                //     if( item.cut ){
-                //         audio.play();
-                //         palyTransmit.src = suspend;
-                //         footerPlayPlay.src = suspend;
-                //     }else{
-                //         audio.pause();
-                //         palyTransmit.src = paly;
-                //         footerPlayPlay.src = paly;
-                //     }
-
-                //     item.sumItem = transTime(audio.duration);//总时间
-
-                //     audio.addEventListener('timeupdate', function () {
-                //         updateProgress(audio);
-                //     }, false);
-
-                // }
-
-                // //进度条
-                // function updateProgress(audio) {
-
-                //     var value = audio.currentTime / audio.duration;
-                //     var rangePlan = document.querySelector('progress');
-                //     var progressBar = document.querySelector('#plan');
-                //     item.rangePlan = value * 100;
-                //     item.progressBar = value * 100;
-                    
-                //     if(audio.ended){
-                //         palyTransmit.src = paly;
-                //         item.cut = 0;
-                //     }
-
-                //     item.presentItem = transTime(audio.currentTime);//当前播放时间
-
-                // }
-
-                // //时间转换
-                // function transTime(value) {
-                //     var time = "";
-                //     var h = parseInt(parseInt(value) / 3600);
-                //     value %= 3600;
-                //     var m = parseInt(value / 60);
-                //     var s = parseInt(value % 60);
-                //     if (h > 0) {
-                //         time = formatTime(h + ":" + m + ":" + s);
-                //     } else {
-                //         time = formatTime(m + ":" + s);
-                //     }
-                    
-                //     return time;
-                // }
-
-                // //格式化时间
-                // function formatTime(value) {
-                //     var time = "";
-                //     var s = value.split(':');
-                //     var i = 0;
-                //     for (; i < s.length - 1; i++) {
-                //         time += s[i].length == 1 ? ("0" + s[i]) : s[i];
-                //         time += ":";
-                //     }
-                //     time += s[i].length == 1 ? ("0" + s[i]) : s[i];
-                    
-                //     item.dates = time;
-                //     return time;
-                // }
 
             },
 
@@ -316,9 +253,11 @@
             },
 
             lastMusic(){
-                this.music.audio.src = this.music.songList[2];
-                this.cut = 0;
+
+                this.music.init();
+                this.audio.src = this.music.songList[2];
                 this.music.transmit();
+                
             },
 
             nextMusic(){
