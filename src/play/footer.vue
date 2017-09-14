@@ -2,7 +2,9 @@
 <template>
     <footer :class="cutSchema ? '' : 'footer'">
         <div class="footerPlay" v-show="cutSchema" @click="cutSchema=0">
-            <div class="footerPlay-cd"></div>
+            <div class="footerPlay-cd" ref="footercd">
+                <img src="/src/play/img/1.jpg" alt="">
+            </div>
             <div class="footerPlay-name">
                 <h3>Just Dance</h3>
                 <h4>Lady Gaga/Colby O'Donis</h4>
@@ -31,7 +33,9 @@
                     </div>
                     <div class="special">
                         <div class="cd">
-                            <img src="" alt="">
+                            <div class="special-cd" ref="playcd">
+                                <img src="/src/play/img/1.jpg" alt="">
+                            </div>
                         </div>
                     </div>
                     <div class="lyric">
@@ -58,7 +62,7 @@
                     </a>
                     <a><img class="paly-cut" @click="lastMusic" src="./img/icon-last.svg" alt=""></a>
                     <a><img @click="play" class="paly-transmit" src="./img/icon-transmit.svg" alt=""></a>
-                    <a><img class="paly-cut" @click="lastMusic" src="./img/icon-next.svg" alt=""></a>
+                    <a><img class="paly-cut" @click="nextMusic" src="./img/icon-next.svg" alt=""></a>
                     <a><img class="paly-select" src="./img/icon-song-list.svg" alt=""></a>
                 </div>
                 <div class="play-option">
@@ -67,10 +71,12 @@
                     <a><img src="./img/icon-share.svg" alt=""></a>
                     <a><img src="./img/icon-comment.svg" alt=""></a>
                 </div>
-
-                <audio class="audio" src="http://ws.stream.qqmusic.qq.com/201949026.m4a?fromtag=46" ref="audio"></audio>
+                
+                <audio class="audio" src="src/play/mp3/1.mp3" ref="audio"></audio>
             </div>
         </div>
+        <div :class="cutSchema ? '' : 'setting'"></div>
+        <div :class="cutSchema ? '' : 'setting2'"></div>
     </footer>
 </template>
 
@@ -94,76 +100,93 @@
                 rangePlan: 0,
                 progressBar: 0,
                 repeat: 1,
+                count: 0,
                 music: 0
             }
         },
         mounted: function(){
 
-            console.log(this);
+            // var vm = this;
             this.music = {
-
+                
+                songList: ['src/play/mp3/1.mp3','src/play/mp3/2.mp3','src/play/mp3/3.mp3'],
                 item: this,
+                key: null,//用来清除帧动画
                 audio: this.$refs.audio,//document.querySelector('.audio');
                 palyTransmit: document.querySelector('.paly-transmit'),
                 footerPlayPlay: this.$refs.footerPlayPlay,
-                transmit: ()=>{
+                playcd: this.$refs.playcd,//播放时的专辑图片
+                footercd: this.$refs.footercd,//底部的专辑图片
+                rangePlan: document.querySelector('.progress'),
+                progressBar: document.querySelector('#plan'),
+                transmit: function(){
                     
-                    item.cut = !item.cut;
-
-                    if( item.cut ){
-                        audio.play();
-                        palyTransmit.src = suspend;
-                        footerPlayPlay.src = suspend;
-                    }else{
-                        audio.pause();
-                        palyTransmit.src = paly;
-                        footerPlayPlay.src = paly;
+                    this.cut = !this.cut;
+                    
+                    var frame = ()=>{
+                        this.item.count+=0.1;
+                        this.playcd.style = "transform: rotate("+this.item.count+"deg)";
+                        this.footercd.style = "transform: rotate("+this.item.count+"deg)";
+                        this.key = requestAnimationFrame(frame);
                     }
 
-                    item.sumItem = transTime(audio.duration);//总时间
+                    if( this.cut ){
+                        this.audio.play();
+                        this.palyTransmit.src = suspend;
+                        this.footerPlayPlay.src = suspend;
+                        frame();
+                    }else{
+                        this.audio.pause();
+                        this.palyTransmit.src = paly;
+                        this.footerPlayPlay.src = paly;
 
-                    audio.addEventListener('timeupdate', function () {
-                        updateProgress(audio);
+                        window.cancelAnimationFrame(this.key);
+                    }
+
+                    this.item.sumItem = this.transTime(this.audio.duration);//总时间
+                    
+                    this.audio.addEventListener('timeupdate', ()=> {
+                        this.updateProgress(this.audio);
                     }, false);
-
+                    console.log(this.audio);
                 },
 
                 //进度条
-                updateProgress: (audio)=> {
-
+                updateProgress: function(audio) {
+                    
                     var value = audio.currentTime / audio.duration;
-                    var rangePlan = document.querySelector('progress');
-                    var progressBar = document.querySelector('#plan');
-                    item.rangePlan = value * 100;
-                    item.progressBar = value * 100;
+                    
+                    this.item.rangePlan = value * 100;
+                    this.item.progressBar = value * 100;
                     
                     if(audio.ended){
-                        palyTransmit.src = paly;
-                        item.cut = 0;
+                        this.palyTransmit.src = paly;
+                        this.cut = 0;
                     }
 
-                    item.presentItem = transTime(audio.currentTime);//当前播放时间
-
+                    this.item.presentItem = this.transTime(audio.currentTime);//当前播放时间
+                    
                 },
 
                 //时间转换
-                transTime: (value)=> {
+                transTime: function(value) {
+                    
                     var time = "";
                     var h = parseInt(parseInt(value) / 3600);
                     value %= 3600;
                     var m = parseInt(value / 60);
                     var s = parseInt(value % 60);
                     if (h > 0) {
-                        time = formatTime(h + ":" + m + ":" + s);
+                        time = this.formatTime(h + ":" + m + ":" + s);
                     } else {
-                        time = formatTime(m + ":" + s);
+                        time = this.formatTime(m + ":" + s);
                     }
                     
                     return time;
                 },
 
                 //格式化时间
-                formatTime: (value)=> {
+                formatTime: function(value) {
                     var time = "";
                     var s = value.split(':');
                     var i = 0;
@@ -173,7 +196,7 @@
                     }
                     time += s[i].length == 1 ? ("0" + s[i]) : s[i];
                     
-                    item.dates = time;
+                    this.dates = time;
                     return time;
                 }
             }
@@ -182,82 +205,84 @@
             
             play(){
                 
-                var item = this;
-                var audio = this.$refs.audio;//document.querySelector('.audio');
-                var palyTransmit = document.querySelector('.paly-transmit');
-                var footerPlayPlay = this.$refs.footerPlayPlay;
-                transmit();
+                this.music.transmit();
 
-                function transmit(){
+                // var item = this;
+                // var audio = this.$refs.audio;//document.querySelector('.audio');
+                // var palyTransmit = document.querySelector('.paly-transmit');
+                // var footerPlayPlay = this.$refs.footerPlayPlay;
+                // transmit();
+
+                // function transmit(){
                     
-                    item.cut = !item.cut;
+                //     item.cut = !item.cut;
 
-                    if( item.cut ){
-                        audio.play();
-                        palyTransmit.src = suspend;
-                        footerPlayPlay.src = suspend;
-                    }else{
-                        audio.pause();
-                        palyTransmit.src = paly;
-                        footerPlayPlay.src = paly;
-                    }
+                //     if( item.cut ){
+                //         audio.play();
+                //         palyTransmit.src = suspend;
+                //         footerPlayPlay.src = suspend;
+                //     }else{
+                //         audio.pause();
+                //         palyTransmit.src = paly;
+                //         footerPlayPlay.src = paly;
+                //     }
 
-                    item.sumItem = transTime(audio.duration);//总时间
+                //     item.sumItem = transTime(audio.duration);//总时间
 
-                    audio.addEventListener('timeupdate', function () {
-                        updateProgress(audio);
-                    }, false);
+                //     audio.addEventListener('timeupdate', function () {
+                //         updateProgress(audio);
+                //     }, false);
 
-                }
+                // }
 
-                //进度条
-                function updateProgress(audio) {
+                // //进度条
+                // function updateProgress(audio) {
 
-                    var value = audio.currentTime / audio.duration;
-                    var rangePlan = document.querySelector('progress');
-                    var progressBar = document.querySelector('#plan');
-                    item.rangePlan = value * 100;
-                    item.progressBar = value * 100;
+                //     var value = audio.currentTime / audio.duration;
+                //     var rangePlan = document.querySelector('progress');
+                //     var progressBar = document.querySelector('#plan');
+                //     item.rangePlan = value * 100;
+                //     item.progressBar = value * 100;
                     
-                    if(audio.ended){
-                        palyTransmit.src = paly;
-                        item.cut = 0;
-                    }
+                //     if(audio.ended){
+                //         palyTransmit.src = paly;
+                //         item.cut = 0;
+                //     }
 
-                    item.presentItem = transTime(audio.currentTime);//当前播放时间
+                //     item.presentItem = transTime(audio.currentTime);//当前播放时间
 
-                }
+                // }
 
-                //时间转换
-                function transTime(value) {
-                    var time = "";
-                    var h = parseInt(parseInt(value) / 3600);
-                    value %= 3600;
-                    var m = parseInt(value / 60);
-                    var s = parseInt(value % 60);
-                    if (h > 0) {
-                        time = formatTime(h + ":" + m + ":" + s);
-                    } else {
-                        time = formatTime(m + ":" + s);
-                    }
+                // //时间转换
+                // function transTime(value) {
+                //     var time = "";
+                //     var h = parseInt(parseInt(value) / 3600);
+                //     value %= 3600;
+                //     var m = parseInt(value / 60);
+                //     var s = parseInt(value % 60);
+                //     if (h > 0) {
+                //         time = formatTime(h + ":" + m + ":" + s);
+                //     } else {
+                //         time = formatTime(m + ":" + s);
+                //     }
                     
-                    return time;
-                }
+                //     return time;
+                // }
 
-                //格式化时间
-                function formatTime(value) {
-                    var time = "";
-                    var s = value.split(':');
-                    var i = 0;
-                    for (; i < s.length - 1; i++) {
-                        time += s[i].length == 1 ? ("0" + s[i]) : s[i];
-                        time += ":";
-                    }
-                    time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+                // //格式化时间
+                // function formatTime(value) {
+                //     var time = "";
+                //     var s = value.split(':');
+                //     var i = 0;
+                //     for (; i < s.length - 1; i++) {
+                //         time += s[i].length == 1 ? ("0" + s[i]) : s[i];
+                //         time += ":";
+                //     }
+                //     time += s[i].length == 1 ? ("0" + s[i]) : s[i];
                     
-                    item.dates = time;
-                    return time;
-                }
+                //     item.dates = time;
+                //     return time;
+                // }
 
             },
 
@@ -291,8 +316,12 @@
             },
 
             lastMusic(){
-                
-                
+                this.music.audio.src = this.music.songList[2];
+                this.cut = 0;
+                this.music.transmit();
+            },
+
+            nextMusic(){
 
             }
 

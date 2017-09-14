@@ -3,13 +3,14 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    background: #fff;
+    // background: #fff;
     z-index: 999;
 }
 
 .footerPlay{
+    font-size: 0;
     height: 1.1rem;
-    border-top: 1px solid #b2b2b2;
+    box-shadow: 0 -0.01rem 0.01rem rgba(0,0,0,0.5);
     position: absolute;
     bottom: 0;
     display: flex;
@@ -22,9 +23,14 @@
     &-cd{
         width: 0.8rem;
         height: 0.8rem;
-        border: 1px solid #000;
         border-radius: 50%;
         overflow: hidden;
+        text-align: center;
+
+        img{
+            height: 100%;
+        }
+
     }
 
     &-name{
@@ -53,9 +59,32 @@
 
 }
 
+.setting{
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/src/play/img/1.jpg')center no-repeat;
+    background-size: cover;
+    filter: blur(20px);
+}
+
+.setting2{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+}
 
 .play-music{
     width: 100%;
+    position: relative;
+    z-index: 3;
 }
 
 .play-header{
@@ -72,6 +101,7 @@
 
     a{
         font-size: 0.28rem;
+        flex: 0;
     }
 
     .play-menu,.play-more{
@@ -131,7 +161,18 @@
                 border: 0.16rem solid rgba( 0,0,0, 0.1 );
                 border-radius: 50%;
                 margin: 0 auto;
+                overflow: hidden;
+                text-align: center;
+                
             }
+
+            &-cd{
+                height: 100%;
+                img{
+                    height: 100%;
+                }
+            }
+
         }
     
         .lyric{
