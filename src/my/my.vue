@@ -11,7 +11,7 @@
             </div>
             <div id="login-success">
                 <div class="login-title">
-                    <a class="listen-time"> <img src="./img/icon-listen.svg">12分钟</a>
+                    <a class="listen-time"> <img src="./img/icon-listen.svg"><span v-text="time"></span>分钟</a>
                     <a class="avatar"><img src="./img/avatar.jpg"></a>
                     <a class="dredge-green"><img src="./img/icon-green-ti.svg"><img src="./img/icon-zuan.svg" class="center">  开通</a>
                 </div>
@@ -30,25 +30,25 @@
                     <router-link to="/localMusic">
                         <img src="./img/icon-song-list.svg">
                         <p>本地歌曲</p>
-                        <p><span>477</span></p>
+                        <p><span v-text="songNum"></span></p>
                     </router-link> 
                 </div>
                 <div>
                     <img src="./img/icon-download.svg">
                     <p>下载歌曲</p>
-                    <p><span>477</span></p>
+                    <p><span></span></p>
                 </div> 
                 <div>
                     <router-link to="/history">
                         <img src="./img/icon-play-lately.svg">
                         <p> 最近播放</p>
-                        <p><span>477</span></p>
+                        <p><span></span></p>
                     </router-link> 
                 </div>
                 <div>
                     <img src="./img/icon-mylike.svg">
                     <p>我喜欢</p>
-                    <p><span>477</span></p>
+                    <p><span></span></p>
                 </div>
                 <div>
                     <img src="./img/icon-play-mv.svg">
@@ -161,10 +161,26 @@
             return{
                 count: '',
                 isShow: 1,
-                isLogin: 1
+                isLogin: 1,
+                songNum: null,
+                time: 1
             }
         },
         methods:{
+            getdate(){
+                this.time = localStorage.getItem('time');
+            }
+        },
+        created(){
+            var arr = JSON.parse(localStorage.getItem('music'));
+            this.songNum = arr.length;
+
+        },
+        mounted(){
+            this.getdate();
+            setInterval(()=>{
+                this.getdate();
+            },1000)
         }
     }
 </script>
@@ -467,6 +483,12 @@
                 line-height: .64rem;
                 background: #fff;
                 font-size: 0.3rem;
+            }
+            .line{
+                border-top: 1px solid #000;
+                width: 2.4rem;
+                position: absolute;
+                z-index: -1;
             }
         }
        .icons{

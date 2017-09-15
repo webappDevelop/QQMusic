@@ -26,7 +26,9 @@
                         <p v-text="obj.title"></p>
                         <p><img src="../img/icon-counter.svg" alt=""><span v-text="obj.singer[0].name">覃桢</span>&nbsp;<span v-text="obj.album.name"> · 366次告白</span></p>
                     </div>
-                    
+                    <div class="music-listen-time">
+                        <p><img src="../img/icon-more.svg" alt=""></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,13 +50,14 @@ export default {
         play(index){
             localStorage.setItem('music',JSON.stringify(this.songslist));
             localStorage.setItem('currentPlay',JSON.stringify(this.songslist[index]));
+
         }
     },
     created(){
         ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
             new_format:1,
             pic:500,
-            disstid:1144416825,
+            disstid:2646688496,
             type:1,
             json:1,
             utf8:1,
@@ -102,7 +105,7 @@ export default {
             }
             >:first-child{
                 font-size: 0.29rem;
-                line-height: 0.29rem;
+                line-height: 0.32rem;
             }
             
             >:last-child{
@@ -115,13 +118,18 @@ export default {
             }
         }
         .music-listen-time{
-            display: flex;
+            flex: 1;
             font-size: 0.18rem;
             line-height: 1.1rem;
             color: #666;
+            position: relative;
             img{
                 width: 0.24rem;
-                margin-right: .2rem;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: .2rem;
+                margin: auto;
             }
             span{
                 margin-right: 0.35rem;
