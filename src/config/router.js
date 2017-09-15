@@ -6,6 +6,7 @@ import Play from '../play/play.vue'
 import History from '../my/history/history.vue'
 import Ranking from '../musicHall/ranking/ranking.vue'
 import List from '../my/list/list.vue'
+import localMusic from '../my/localmusic/localmusic.vue'
 
 export default {
     routes: [
@@ -40,9 +41,14 @@ export default {
             component: Ranking
         },
         {
-            name: 'ranking',
-            path: '/ranking',
-            component: Ranking
+            name: 'list',
+            path: '/list',
+            component: List
+        },
+        {
+            name: 'localMusic',
+            path: '/localMusic',
+            component: localMusic
         }
     ]
 }

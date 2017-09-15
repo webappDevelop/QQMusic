@@ -27,9 +27,11 @@
         <section>
             <div class="user-option">
                 <div>
-                    <img src="./img/icon-song-list.svg">
-                    <p>本地歌曲</p>
-                    <p><span>477</span></p>
+                    <router-link to="/localMusic">
+                        <img src="./img/icon-song-list.svg">
+                        <p>本地歌曲</p>
+                        <p><span>477</span></p>
+                    </router-link> 
                 </div>
                 <div>
                     <img src="./img/icon-download.svg">
@@ -88,7 +90,7 @@
                     <span @click="isShow=1"  :class="isShow && 'active'">自建歌单 <i>{{count}}</i></span> <span class="split"></span> <span @click="isShow=0" :class="!isShow && 'active'">收藏歌单</span>d
                 </div>
                 <div class="list-option">
-                    <a><img src="./img/icon-plus.svg" alt=""></a>
+                    <router-link to="list"><img src="./img/icon-plus.svg" alt=""></router-link>
                     <a><img src="./img/icon-list-collect.svg" alt=""></a>
                 </div>
             </div>

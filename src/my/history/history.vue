@@ -32,9 +32,52 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="recent-play-main" :key="obj.id" v-for="obj in songslist">
+                <div class="music-main">
+                    <div class="music-info">
+                        <p v-text="obj.title"></p>
+                        <p><img src="../img/icon-counter.svg" alt=""><span v-text="obj.singer[0].name">覃桢</span>&nbsp;<span v-text="obj.album.name"> · 366次告白</span></p>
+                    </div>
+                    <div class="music-listen-time">
+                        <img src="../img/icon-headset-gray.svg" alt="">
+                        <p><span> 6</span></p>
+                        <p><img src="../img/icon-more.svg" alt=""></p>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
 </template>
+
+<script>
+
+import ajax from '../../assets/js/ajax.js'
+
+export default {
+    // data(){
+    //     return {
+    //         songslist: [],
+
+    //    }
+    // },
+    // created(){
+    //     ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
+    //         new_format:1,
+    //         pic:500,
+    //         disstid:1144416825,
+    //         type:1,
+    //         json:1,
+    //         utf8:1,
+    //         onlysong:0,
+    //         nosign:1
+    //     },{param: 'jsonpCallback', name: 'jp0'}).then(res => {
+    //         this.songslist = res.cdlist[0].songlist;
+    //         console.log(res.cdlist[0].songlist)
+    //     })
+    // }
+}
+</script>
+
 
 
 <style lang="scss" scoped>
@@ -58,7 +101,10 @@
             padding: 0.2rem 0;
             font-size: 0.3rem;
             p{
-                width: calc(100% - 0.4rem)
+                width: calc(100% - 0.4rem);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
             img{
                 float: left;
