@@ -10,7 +10,7 @@
                 <h4>Lady Gaga/Colby O'Donis</h4>
             </div>
             <a><img class="footerPlay-play" ref="footerPlayPlay" @click.stop="play" src="../assets/img/icon-transmit.svg" alt=""></a>
-            <a><img class="footerPlay-list" src="../assets/img/icon-song-list-foot.svg" alt=""></a>
+            <a><img class="footerPlay-list" @click.stop="songlist=1" src="../assets/img/icon-song-list-foot.svg" alt=""></a>
         </div>
         <div class="play-music" v-show="!cutSchema">
             <div class="play-header">
@@ -65,7 +65,7 @@
                     <a><img class="paly-cut" @click="lastMusic" src="../assets/img/icon-last.svg" alt=""></a>
                     <a><img @click="play" class="paly-transmit" src="../assets/img/icon-transmit.svg" alt=""></a>
                     <a><img class="paly-cut" @click="nextMusic" src="../assets/img/icon-next.svg" alt=""></a>
-                    <a><img class="paly-select" src="../assets/img/icon-song-list.svg" alt=""></a>
+                    <a @click="songlist=1"><img class="paly-select" src="../assets/img/icon-song-list.svg" alt=""></a>
                 </div>
                 <div class="play-option">
                     <a><img class="addLike" src="../assets/img/icon-like.svg" alt=""></a>
@@ -73,43 +73,60 @@
                     <a><img src="../assets/img/icon-share.svg" alt=""></a>
                     <a><img src="../assets/img/icon-comment.svg" alt=""></a>
                 </div>
-                <div class="songList">
-                    <div class="songList-option">
-                        <a>
-                            <img class="paly-select" @click="cutmodel($event)" 
-                            src="../assets/img/icon-list-circulation.svg" alt="">
-                            <span>列表循环</span>
-                        </a>
-                        <div class="songList-options">
-                            <a><img src="../assets/img/icon-download.svg" alt=""></a>
-                            <a><img src="../assets/img/icon-add-List.svg" alt=""></a>
-                            <a><img src="../assets/img/icon-empty-list.svg" alt=""></a>
-                        </div>
-                    </div>
-                    <div class="MusicList">
-                        <div class="MusicList-song">
-                            <div class="MusicList-songName">
-                                <p>
-                                    All About That Bass 
-                                    <span> - Meghan Trainor </span>
-                                </p>
-                                <img src="../assets/img/icon-play-center.svg" alt="">
-                            </div>
-                            <div class="MusicList-right">
-                                <a><img src="../assets/img/icon-like.svg" alt=""></a>
-                                <a><img src="../assets/img/icon-close.svg" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="close">关闭</div>
-                </div>
+                
                 
                 <audio class="audio" src="src/assets/mp3/1.mp3" ref="audio"></audio>
             </div>
         </div>
         <div :class="cutSchema ? '' : 'setting'"></div>
         <div :class="cutSchema ? '' : 'setting2'"></div>
-        <div class="songList-mask"></div>
+        <div class="songList" v-show="songlist">
+            <div class="songList-list">
+            <div class="songList-option">
+                <a>
+                    <img class="paly-select" @click="cutmodel($event)" 
+                    src="../assets/img/icon-list-circulation.svg" alt="">
+                    <span>列表循环</span>
+                </a>
+                <div class="songList-options">
+                    <a><img src="../assets/img/icon-download.svg" alt=""></a>
+                    <a><img src="../assets/img/icon-add-List.svg" alt=""></a>
+                    <a><img src="../assets/img/icon-empty-list.svg" alt=""></a>
+                </div>
+            </div>
+            <div class="MusicList">
+                <div class="MusicList-song MusicList-song-play">
+                    <div class="MusicList-songName">
+                        <p>
+                            All About That Bass 
+                            <span> - Meghan Trainor </span>
+                        </p>
+                        <img src="../assets/img/icon-play-center.svg" alt="">
+                    </div>
+                    <div class="MusicList-right">
+                        <a><img src="../assets/img/icon-like.svg" alt=""></a>
+                        <a><img src="../assets/img/icon-close.svg" alt=""></a>
+                    </div>
+                </div>
+                <div class="MusicList-song">
+                    <div class="MusicList-songName">
+                        <p>
+                            All About That Bass 
+                            <span> - Meghan Trainor </span>
+                        </p>
+                        <img v-show="0" src="../assets/img/icon-play-center.svg" alt="">
+                    </div>
+                    <div class="MusicList-right">
+                        <a><img src="../assets/img/icon-like.svg" alt=""></a>
+                        <a><img src="../assets/img/icon-close.svg" alt=""></a>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="songList-close" @click="songlist=0">关闭</div>
+            </div>
+            <div class="songList-mask" @click="songlist=0" v-show="songlist"></div>
+        </div>
     </footer>
 </template>
 
@@ -138,6 +155,7 @@
                 repeat: 1,
                 count: 0,
                 audio: 0,
+                songlist: 0,
                 // lyric: "",
                 music: 0
             }
