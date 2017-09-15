@@ -25,7 +25,6 @@ new Vue({
             this.time = Math.floor((currentTime - oldTime) / 1000);
             this.time = this.time / 5;
             if(Number.isInteger(this.time)){
-                console.log("main "+this.time)
                 localStorage.setItem('time',this.time);
             }
         },1000)
