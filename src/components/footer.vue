@@ -3,7 +3,7 @@
     <footer :class="cutSchema ? '' : 'footer'">
         <div class="footerPlay" v-show="cutSchema" @click="cutSchema=0">
             <div class="footerPlay-cd" ref="footercd">
-                <img src="/src/play/img/1.jpg" alt="">
+                <img src="/src/assets/img/1.jpg" alt="">
             </div>
             <div class="footerPlay-name">
                 <h3>Just Dance</h3>
@@ -34,7 +34,7 @@
                     <div class="special">
                         <div class="cd">
                             <div class="special-cd" ref="playcd">
-                                <img src="/src/play/img/1.jpg" alt="">
+                                <img src="/src/assets/img/1.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -44,9 +44,9 @@
                     </div>
                 </div>
             </div>
-            <div class="lyrics">
+            <!-- <div class="lyrics">
                 <p>{{lyric}}</p>
-            </div>
+            </div> -->
             <div class="paly-footer">
                 <div class="schedule">
                     <span>{{presentItem}}</span>
@@ -73,12 +73,43 @@
                     <a><img src="../assets/img/icon-share.svg" alt=""></a>
                     <a><img src="../assets/img/icon-comment.svg" alt=""></a>
                 </div>
+                <div class="songList">
+                    <div class="songList-option">
+                        <a>
+                            <img class="paly-select" @click="cutmodel($event)" 
+                            src="../assets/img/icon-list-circulation.svg" alt="">
+                            <span>列表循环</span>
+                        </a>
+                        <div class="songList-options">
+                            <a><img src="../assets/img/icon-download.svg" alt=""></a>
+                            <a><img src="../assets/img/icon-add-List.svg" alt=""></a>
+                            <a><img src="../assets/img/icon-empty-list.svg" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="MusicList">
+                        <div class="MusicList-song">
+                            <div class="MusicList-songName">
+                                <p>
+                                    All About That Bass 
+                                    <span> - Meghan Trainor </span>
+                                </p>
+                                <img src="../assets/img/icon-play-center.svg" alt="">
+                            </div>
+                            <div class="MusicList-right">
+                                <a><img src="../assets/img/icon-like.svg" alt=""></a>
+                                <a><img src="../assets/img/icon-close.svg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="close">关闭</div>
+                </div>
                 
                 <audio class="audio" src="src/assets/mp3/1.mp3" ref="audio"></audio>
             </div>
         </div>
         <div :class="cutSchema ? '' : 'setting'"></div>
         <div :class="cutSchema ? '' : 'setting2'"></div>
+        <div class="songList-mask"></div>
     </footer>
 </template>
 
@@ -362,7 +393,7 @@
 
 <style lang="scss">
     
-    @import '../assets/css/footer.scss';
+    @import '../assets/css/common.scss';
 
 </style>
 

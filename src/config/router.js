@@ -2,12 +2,15 @@
 import My from '../my/my.vue'
 import MusicHall from '../musicHall/musicHall.vue'
 import Find from '../find/find.vue'
-import Play from '../play/play.vue'
 import History from '../my/history/history.vue'
 import Ranking from '../musicHall/ranking/ranking.vue'
 
 export default {
     routes: [
+        {
+            path: '/',
+            redirect: '/my'
+        },
         {
             name: 'my',
             path: '/my',
@@ -22,11 +25,6 @@ export default {
             name: 'find',
             path: '/find',
             component: Find
-        },
-        {
-            name: 'play',
-            path: '/play',
-            component: Play
         },
         {
             name: 'history',
