@@ -44,7 +44,9 @@
                     </div>
                 </div>
             </div>
-
+            <div class="lyrics">
+                <p>{{lyric}}</p>
+            </div>
             <div class="paly-footer">
                 <div class="schedule">
                     <span>{{presentItem}}</span>
@@ -87,6 +89,9 @@
     import circulate from '../assets/img/icon-list-circulation.svg' //列表循环
     import one from '../assets/img/icon-one-circulate.svg' //单曲循环
     import random from '../assets/img/icon-random-circulate.svg' //随机播放
+    import base64 from 'js-base64'//歌词解析
+    import ajax from '../assets/js/ajax.js'
+    // import lyrics from './src/assets/lyric/1.krc'//
 
     export default {
 
@@ -102,13 +107,18 @@
                 repeat: 1,
                 count: 0,
                 audio: 0,
+                // lyric: "",
                 music: 0
             }
         },
         mounted: function(){
-
-            this.audio = this.$refs.audio;
             
+            this.audio = this.$refs.audio;
+            // ajax.get('/src/assets/lyric/1.krc').then((res)=>{
+            //     console.log(res.data);
+            // });
+            // console.log(this.lyric);
+            // this.lyric = base64.decode();
             // var vm = this;
             this.music = {
                 
@@ -124,7 +134,7 @@
                 transmit: function(){
                     
                     this.item.cut = !this.item.cut;
-                    
+                    console.log(this.item.cut);
                     var frame = ()=>{
                         this.item.count+=0.1;
                         this.playcd.style = "transform: rotate("+this.item.count+"deg)";
@@ -160,23 +170,36 @@
                 //进度条
                 updateProgress: function(audio) {
                     
-                    var value = audio.currentTime / audio.duration;
+                    var value = audio.currentTime / audio.duration || 0;
                     
                     this.item.rangePlan = value * 100;
                     this.item.progressBar = value * 100;
                     
-                    if( this.item.cut ){
+                    if( this.item.cut && audio.ended ){
                         
-                        if(audio.ended){
-                            
-                            this.palyTransmit.src = paly;
-                            this.item.rangePlan = 0;
-                            this.item.progressBar = 0;
-                            window.cancelAnimationFrame(this.key);
+                        this.palyTransmit.src = paly;
+                        this.item.rangePlan = 0;
+                        this.item.progressBar = 0;
+                        window.cancelAnimationFrame(this.key);
+
+                        if( this.item.repeat == 2 ){
+                            console.log("11111111");
                             this.item.cut = 0;
+                            this.transmit();
+                        }
+
+                        if( this.item.repeat == 0 ){
+                            console.log("222222");
+                            this.switch(2);
+                        }
+
+                        if( this.item.repeat == 1 ){
+                            console.log("3333333");
+                            this.switch(1);
                         }
 
                     }
+
                     this.item.presentItem = this.transTime(audio.currentTime);//当前播放时间
                     
                 },
@@ -226,22 +249,34 @@
                     }
                     
                 },
+                //切歌
                 switch: function( judge ){
-
-                    var srcIndex = this.item.audio.currentSrc.indexOf('src/');
-                    var src = this.item.audio.currentSrc.slice(srcIndex,this.item.audio.currentSrc.length);
-                    var index = this.songList.indexOf(src);
-                    console.log(src);
-                    console.log(index);
-                    index += judge;
-                    if( index == 0 ){
-                        index = this.songList.length;
+                    
+                    var random = Math.floor(Math.random()*this.songList.length);
+                    
+                    if( judge == 2 ){
+                        index = random;
                     }
 
-                    if( index == this.songList.length ){
-                        index = -1;
-                    }
+                    if( judge == -1 || judge == 1 ){
+                        
+                        var srcIndex = this.item.audio.currentSrc.indexOf('src/');
+                        var src = this.item.audio.currentSrc.slice(srcIndex,this.item.audio.currentSrc.length);
+                        var index = this.songList.indexOf(src);
 
+                        index += judge;
+
+                        if( index == -1 ){
+                            index = this.songList.length-1;
+                        }
+                        
+                        if( index == this.songList.length ){
+                            
+                            index = 0;
+                        }
+
+                    }
+                    
                     this.item.audio.src = this.songList[index];
                     
                     this.init();
@@ -269,7 +304,6 @@
                 if( !this.cut ){
                     this.progressBar = this.progressBar;
                     this.rangePlan = this.rangePlan;
-                    console.log(this.rangePlan);
                 }
 
             },
@@ -278,29 +312,46 @@
                 var eve = event.target;
                 this.repeat++;
 
+                //列表循环
                 if( this.repeat == 1 ){
                     eve.src = circulate;
                 }
 
+                //单曲循环
                 if( this.repeat == 2 ){
                     eve.src = one;
                 }
 
+                //随机播放
                 if( this.repeat == 3 ){
                     eve.src = random;
                     this.repeat = 0;
                 }
-
+                
             },
 
             lastMusic(){
 
-                this.music.switch(-1);
+                if( this.repeat == 0 ){
+                    this.music.switch(2);
+                }
+                
+                if( this.repeat == 1 || this.repeat == 2 ){
+                    this.music.switch(-1);
+                }
                 
             },
 
             nextMusic(){
-                this.music.switch(1);
+
+                if( this.repeat == 0 ){
+                    this.music.switch(2);
+                }
+
+                if( this.repeat == 1 || this.repeat == 2 ){
+                    this.music.switch(1);
+                }
+
             }
 
         }
