@@ -44,7 +44,9 @@
                     </div>
                 </div>
             </div>
-
+            <div class="lyrics">
+                <p>{{lyric}}</p>
+            </div>
             <div class="paly-footer">
                 <div class="schedule">
                     <span>{{presentItem}}</span>
@@ -87,6 +89,9 @@
     import circulate from '../assets/img/icon-list-circulation.svg' //列表循环
     import one from '../assets/img/icon-one-circulate.svg' //单曲循环
     import random from '../assets/img/icon-random-circulate.svg' //随机播放
+    import base64 from 'js-base64'//歌词解析
+    import ajax from '../assets/js/ajax.js'
+    // import lyrics from './src/assets/lyric/1.krc'//
 
     export default {
 
@@ -102,13 +107,18 @@
                 repeat: 1,
                 count: 0,
                 audio: 0,
+                // lyric: "",
                 music: 0
             }
         },
         mounted: function(){
-
-            this.audio = this.$refs.audio;
             
+            this.audio = this.$refs.audio;
+            // ajax.get('/src/assets/lyric/1.krc').then((res)=>{
+            //     console.log(res.data);
+            // });
+            // console.log(this.lyric);
+            // this.lyric = base64.decode();
             // var vm = this;
             this.music = {
                 
@@ -124,7 +134,7 @@
                 transmit: function(){
                     
                     this.item.cut = !this.item.cut;
-                    
+                    console.log(this.item.cut);
                     var frame = ()=>{
                         this.item.count+=0.1;
                         this.playcd.style = "transform: rotate("+this.item.count+"deg)";
@@ -173,14 +183,18 @@
                         window.cancelAnimationFrame(this.key);
 
                         if( this.item.repeat == 2 ){
+                            console.log("11111111");
+                            this.item.cut = 0;
                             this.transmit();
                         }
 
                         if( this.item.repeat == 0 ){
+                            console.log("222222");
                             this.switch(2);
                         }
 
                         if( this.item.repeat == 1 ){
+                            console.log("3333333");
                             this.switch(1);
                         }
 
