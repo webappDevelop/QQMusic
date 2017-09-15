@@ -10,7 +10,7 @@
                 
                 <div class="ranking-body">
                     <h3 class="ranking-body-title">QQ音乐巅峰榜</h3>
-                    <div class="ranking-body-select" v-for="item in sliders.List">
+                    <router-link tag="div" class="ranking-body-select" v-for="item in sliders.List" :key="item.id" :to="{name: 'listofsongs', params:{id: item.topID}}">
                         <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
                             <div class="earphone">{{ item.listennum }}万</div>
                             <img src="../img/play.svg">
@@ -25,10 +25,10 @@
 
                             <img src="./img/the-right-arrow.svg">
                         </div>
-                    </div>
+                    </router-link>
 
                     <h3 class="ranking-body-title">全球榜</h3>
-                    <div class="list-of-the-world" v-for="item in sliderss.List">
+                    <div class="list-of-the-world" v-for="item in sliderss.List" :key="item.id">
                         <div class="world-select">
                             <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
                                 <div class="earphone">{{ item.listennum }}万</div>
@@ -64,8 +64,6 @@
             },{param: 'jsonCallback',name: 'jsonCallback'}).then((res) => {
                 data = res;
             });
-
-            console.log( data[1] );
 
             for( var i=0; i<data[0].List.length; i++ ){
                 data[0].List[i].listennum = Math.ceil(data[0].List[i].listennum / 10000);
@@ -191,7 +189,7 @@
 
         img{
             position: absolute;
-            top: 1.2rem;
+            top: 1rem;
             right: 0.2rem;
             width: 0.23rem;
             height: 0.33rem;
@@ -265,15 +263,5 @@
                 font-weight: normal;
             }
         }
-    }
-
-    .slide-enter-active,
-    .slide-leave-active{
-        transition: all 0.3s;
-    }
-
-    .slide-enter,
-    .slide-leave-to{
-        transform: translate3d(100%, 0, 0);
     }
 </style>
