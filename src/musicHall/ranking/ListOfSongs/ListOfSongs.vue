@@ -94,7 +94,7 @@
                 this.index = index;
             },
             play( index ){
-                // console.log(this.toplist.songlist);
+                index--;
                 localStorage.setItem('localmusic',JSON.stringify(this.toplist.songlist));
                 localStorage.setItem('currentPlay',JSON.stringify(this.toplist.songlist[index]));
             }
