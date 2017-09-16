@@ -17,9 +17,9 @@
         </div>
         <div class="play-music" v-show="!cutSchema && presentPlay">
             <div class="play-header">
-                <a @touchend="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
+                <a @click="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
                 <h1 class="play-name" v-text="presentPlay && (presentPlay.title || presentPlay.data.songname)">Just Dance</h1>
-                <a href="#"><img class="play-more" src="../assets/img/icon-more.svg" alt=""></a>
+                <a href="#"><img class="play-more" data-unfinishd="true" src="../assets/img/icon-more.svg" alt=""></a>
             </div>
 
             <div class="content">
@@ -37,13 +37,13 @@
                     <div class="special">
                         <div class="cd">
                             <div class="special-cd" ref="playcd">
-                                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt="">
+                                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R500x500M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt="">
                             </div>
                         </div>
                     </div>
                     <div class="lyric">
-                        <span>Da da doo doot-n</span>
-                        <a class="lyric-desktop"><img src="../assets/img/icon-desktop.svg" alt=""></a>
+                        <!-- <span>Da da doo doot-n</span> -->
+                        <a class="lyric-desktop"><img data-unfinishd="true" src="../assets/img/icon-desktop.svg" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -69,15 +69,15 @@
                     <a @click="poppingSongList"><img class="paly-select" src="../assets/img/icon-song-list.svg" alt=""></a>
                 </div>
                 <div class="play-option">
-                    <a><img class="addLike" src="../assets/img/icon-like.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-download.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-share.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-comment.svg" alt=""></a>
+                    <a><img data-unfinishd="true" class="addLike" src="../assets/img/icon-like.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-download.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-share.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-comment.svg" alt=""></a>
                 </div>
                 <audio class="audio" ref="audio"></audio>
             </div>
         </div>
-        <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt=""></div>
+        <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R500x500M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt=""></div>
         <div :class="cutSchema ? '' : 'setting2'" v-if="presentPlay"></div>
         <div class="songList" v-show="songlist">
             <div class="songList-list">
@@ -88,9 +88,9 @@
                     <span v-text="cutPlayPatternEx"></span>
                 </a>
                 <div class="songList-options">
-                    <a><img src="../assets/img/icon-download.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-add-List.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-empty-list.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-download.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-add-List.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-empty-list.svg" alt=""></a>
                 </div>
             </div>
             <div class="MusicList">
@@ -100,7 +100,7 @@
                             {{item.title || item.data.songname}}
                             <span> - {{(item.album && item.album.name) || item.data.albumname}} </span>
                         </p>
-                        <img v-show="item.id == presentPlay && (presentPlay.id || presentPlay.data.songid)" src="../assets/img/icon-play-center.svg" alt="">
+                        <img v-show="item.id == (presentPlay && (presentPlay.id || presentPlay.data.songid))" src="../assets/img/icon-play-center.svg" alt="">
                     </div>
                     <div class="MusicList-right">
                         <a><img src="../assets/img/icon-like.svg" alt=""></a>
@@ -122,7 +122,6 @@
     import circulate from '../assets/img/icon-list-circulation.svg' //列表循环
     import one from '../assets/img/icon-one-circulate.svg' //单曲循环
     import random from '../assets/img/icon-random-circulate.svg' //随机播放
-    import base64 from 'js-base64'//歌词解析
     import ajax from '../assets/js/ajax.js'
 
     export default {
@@ -142,7 +141,7 @@
                 songlist: 0,
                 presentPlay: null,
                 songJons: null,
-                cutPlayPattern: '/src/assets/img/icon-list-circulation.svg',
+                cutPlayPattern: circulate,
                 cutPlayPatternEx: '列表循环',
                 music: 0
             }
@@ -150,12 +149,13 @@
 
         created(){
             window.addEventListener("setItemEvent",  (e)=> {
-
+                
                 this.songJons = JSON.parse(localStorage.getItem("localmusic"));
 
                 if(e.newKey === "currentPlay"){
-                    
+                    this.audio = this.$refs.audio;
                     this.presentPlay = JSON.parse(e.newValue);
+                    this.audio.src = `http://ws.stream.qqmusic.qq.com/${this.presentPlay.id || this.presentPlay.data.songid}.m4a?fromtag=46`;
                     this.cut = 1;
                     this.music.init();
                     this.music.transmit();
@@ -166,7 +166,7 @@
 
         mounted: function(){
             this.audio = this.$refs.audio;
-
+            
             this.music = {
                 
                 item: this,
@@ -189,12 +189,11 @@
                     }
 
                     if( this.item.cut ){
-                        this.item.audio.src = `http://ws.stream.qqmusic.qq.com/${this.item.presentPlay.id || this.item.presentPlay.data.songid}.m4a?fromtag=46`;
                         this.item.audio.play();
                         this.palyTransmit.src = suspend;
                         this.footerPlayPlay.src = suspend;
                         frame();
-
+                        
                     }else{
                         this.item.audio.pause();
                         this.palyTransmit.src = paly;
@@ -310,11 +309,10 @@
                     }
 
                     if( judge == -1 || judge == 1 ){
-                        console.log(1111);
                         this.item.songJons.forEach(function(element,index) {
                             
                             if( (element.id || element.data.songid ) === (this.item.presentPlay.id || this.item.presentPlay.data.songid) ){
-                                console.log(index);
+                                
                                 ine = index;
                             }
                         }, this);
@@ -341,10 +339,8 @@
             play(){
 
                 if( !this.presentPlay ){
-                    
                     localStorage.setItem("currentPlay",JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]));
                 }else{
-
                     this.music.transmit();
                 }
             },
