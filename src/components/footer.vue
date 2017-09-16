@@ -140,16 +140,15 @@
                 count: 0,
                 audio: 0,
                 songlist: 0,
-                presentPlay: JSON.parse(localStorage.getItem("currentPlay")),
-                songJons: JSON.parse(localStorage.getItem("localmusic")),
+                presentPlay: null,
+                songJons: null,
                 cutPlayPattern: '/src/assets/img/icon-list-circulation.svg',
                 cutPlayPatternEx: '列表循环',
                 music: 0
             }
         },
-        mounted: function(){
-            
-            this.audio = this.$refs.audio;
+
+        created(){
             window.addEventListener("setItemEvent",  (e)=> {
                 this.songJons = JSON.parse(localStorage.getItem("localmusic"));
                 if(e.newKey === "currentPlay"){
@@ -158,10 +157,12 @@
                     this.cut = 1;
                     this.music.init();
                     this.music.transmit();
-
                 }
-                
             });
+        },
+
+        mounted: function(){
+            this.audio = this.$refs.audio;
 
             this.music = {
                 
@@ -322,7 +323,6 @@
 
                     }
                     
-                    
                     localStorage.setItem("currentPlay",JSON.stringify(this.item.songJons[ine]))
                     
                     // this.init();
@@ -334,9 +334,9 @@
         methods: {
             
             play(){
-
+// console.log(JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]))
                 if( !this.presentPlay ){
-                    // console.log(JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]));
+                    
                     localStorage.setItem("currentPlay",JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]));
                 }else{
 
@@ -344,7 +344,7 @@
                 }
             },
             popupList(index){
-
+                // console.log(JSON.stringify(this.songJons[index]));
                 localStorage.setItem("currentPlay",JSON.stringify(this.songJons[index]));
 
             },
