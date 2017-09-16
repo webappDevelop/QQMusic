@@ -35,13 +35,13 @@
                 </div>
 
                 <div class="PlaylistRecommended-body">
-                    <div class="individual" v-for="item in sliders">
+                    <router-link tag="div" class="individual" v-for="item in sliders" :key="item.id" :to="{name: 'songList', params:{id: item.id}}">
                         <div class="individual-img" :style="'background: url('+item.picUrl+') center center; background-size: 100%;'">
                             <div class="earphone">{{ item.accessnum }}万</div>
                             <img src="./img/play.svg">
                         </div>
                         <h3>{{ item.songListDesc }}</h3>
-                    </div>
+                    </router-link>
                 </div>
             </div>
 
@@ -84,22 +84,22 @@
                 <div class="column-body">
                     <div class="column-individual">
                         <img src="./img/140625.jpg">
-                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                        <h3>郑秀文 | 45载又如何，你依旧不可取替</h3>
                     </div>
 
                     <div class="column-individual">
                         <img src="./img/140625.jpg">
-                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                        <h3>任贤齐 | 所有等待都是你光芒万丈前的洗礼</h3>
                     </div>
 
                     <div class="column-individual">
                         <img src="./img/140625.jpg">
-                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                        <h3>零点乐话 | 一个新生的恋爱日记</h3>
                     </div>
 
                     <div class="column-individual">
                         <img src="./img/140625.jpg">
-                        <h3>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</h3>
+                        <h3>乐谈 | 国产良心，动画电影原声大赏</h3>
                     </div>
                 </div>
             </div>
@@ -118,11 +118,20 @@
         },
 
         async created(){
-            let data = await Ajax.jsonp('//c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg');
+            let data = await Ajax.jsonp('//c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',{
+                page:'index',
+                format:'html',
+                tpl:'macv4',
+                v8debug:1
+            });
+
             for( var i=0; i<data.data.songList.length; i++ ){
                 data.data.songList[i].accessnum = (data.data.songList[i].accessnum / 10000).toFixed(1)
             }
+
             this.sliders = data.data.songList;
+
+            console.log( this.sliders[0].id);
         }
     }
 </script>
@@ -132,7 +141,7 @@
 
     .box{
         height: calc( 100% - 2.68rem );
-        overflow: scroll;
+        overflow: auto;
     }
 
     .MusicHall{
@@ -223,6 +232,7 @@
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
                 overflow: hidden;
+                font-weight: normal;
             }
         }
 
@@ -292,6 +302,7 @@
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 2;
                     overflow: hidden;
+                    font-weight: normal;
                 }
             }
 

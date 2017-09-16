@@ -5,7 +5,7 @@
 
                 <router-link to="/my"><img src="../img/the-left-arrow.svg"></router-link>
                 
-                最近播放
+                本地歌曲
             </div>
         </div>
         <div class="recent-play-round">
@@ -19,32 +19,18 @@
             </div>
         </div>
         <div class="recents">
-            <div class="recent-play-main">
-                <div class="music-main">
-                    <div class="music-info">
-                        <p>安静的听完这首歌</p>
-                        <p><img src="../img/icon-counter.svg" alt="">覃桢 · 366次告白</p>
-                    </div>
-                    <div class="music-listen-time">
-                        <img src="../img/icon-headset-gray.svg" alt="">
-                        <p><span> 6</span></p>
-                        <p><img src="../img/icon-more.svg" alt=""></p>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="recent-play-main" :key="obj.id" v-for="obj in songslist">
+           
+            <div class="recent-play-main" @click="play(index)" :key="obj.id" v-for="(obj,index) in songslist">
                 <div class="music-main">
                     <div class="music-info">
                         <p v-text="obj.title"></p>
                         <p><img src="../img/icon-counter.svg" alt=""><span v-text="obj.singer[0].name">覃桢</span>&nbsp;<span v-text="obj.album.name"> · 366次告白</span></p>
                     </div>
                     <div class="music-listen-time">
-                        <img src="../img/icon-headset-gray.svg" alt="">
-                        <p><span> 6</span></p>
                         <p><img src="../img/icon-more.svg" alt=""></p>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>
@@ -54,27 +40,34 @@
 import ajax from '../../assets/js/ajax.js'
 
 export default {
-    // data(){
-    //     return {
-    //         songslist: [],
+    data(){
+        return {
+            songslist: [],
 
-    //    }
-    // },
-    // created(){
-    //     ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
-    //         new_format:1,
-    //         pic:500,
-    //         disstid:1144416825,
-    //         type:1,
-    //         json:1,
-    //         utf8:1,
-    //         onlysong:0,
-    //         nosign:1
-    //     },{param: 'jsonpCallback', name: 'jp0'}).then(res => {
-    //         this.songslist = res.cdlist[0].songlist;
-    //         console.log(res.cdlist[0].songlist)
-    //     })
-    // }
+       }
+    },
+    methods: {
+        play(index){
+            localStorage.setItem('music',JSON.stringify(this.songslist));
+            localStorage.setItem('currentPlay',JSON.stringify(this.songslist[index]));
+
+        }
+    },
+    created(){
+        ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
+            new_format:1,
+            pic:500,
+            disstid:2646688496,
+            type:1,
+            json:1,
+            utf8:1,
+            onlysong:0,
+            nosign:1
+        },{param: 'jsonpCallback', name: 'jp0'}).then(res => {
+            this.songslist = res.cdlist[0].songlist;
+
+        })
+    }
 }
 </script>
 
@@ -112,7 +105,7 @@ export default {
             }
             >:first-child{
                 font-size: 0.29rem;
-                line-height: 0.29rem;
+                line-height: 0.32rem;
             }
             
             >:last-child{
@@ -125,13 +118,18 @@ export default {
             }
         }
         .music-listen-time{
-            display: flex;
+            flex: 1;
             font-size: 0.18rem;
             line-height: 1.1rem;
             color: #666;
+            position: relative;
             img{
                 width: 0.24rem;
-                margin-right: .2rem;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: .2rem;
+                margin: auto;
             }
             span{
                 margin-right: 0.35rem;

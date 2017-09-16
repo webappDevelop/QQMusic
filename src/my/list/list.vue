@@ -8,22 +8,45 @@
                 添加歌单
             </div>
         </div>
-        <div>
-            
+        <div class="list-input">
+            <input type="text" class="list-name" autofocus placeholder="歌单标题" maxlength="20">
         </div>
     </div>
 </template>
+<script>
+export default {
+    mounted: function(){
+        document.querySelector(".list-name").focus();
+    }
+    
+}
+</script>
 
 
 <style lang="scss" scoped>
+    .list-input{
+        padding: 0.3rem 0;
+        width: 100%;
+        background: #fff;
+    }
+    .list-name{
+        width: 100%;
+        border: none;
+        text-indent: 0.4rem;
+        font-size: 0.3rem;
+        &:focus{
+            outline: none;
+        }
+    }
     .list{
         font-size: 0;
         width: 100%;
         height: 100%;
         position: absolute;
+        left: 0;
         top: 0;
-        z-index: 9999;
-        background: #fff;
+        z-index: 99999;
+        background: #f4f4f4;
         &-mod{
             width: 100%;
         }

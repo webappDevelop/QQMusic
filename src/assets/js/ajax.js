@@ -19,8 +19,11 @@ export default {
         return new Promise((resolve, reject) => {
             Axios.get(url,{
                 params: Object.assign(params,_this.params)
-            }).then(resolve(response))
-              .catch(reject(err));
+            }).then((response) => {
+                resolve(response)
+            }).catch((err) => {
+                reject(err)
+            });
         });
     },
 
@@ -29,8 +32,11 @@ export default {
         
         return new Promise((resolve, reject) => {
             Axios.get(url, Object.assign(params,_this.params))
-                .then(resolve(response))
-                .catch(reject(err));
+                .then((response) => {
+                    resolve(response)
+                }).catch((err) => {
+                    reject(err)
+                });
         });     
     },
 

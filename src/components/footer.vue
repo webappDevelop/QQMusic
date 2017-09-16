@@ -3,19 +3,19 @@
     <footer :class="cutSchema ? '' : 'footer'">
         <div class="footerPlay" v-show="cutSchema" @click="cutSchema=0">
             <div class="footerPlay-cd" ref="footercd">
-                <img src="/src/play/img/1.jpg" alt="">
+                <img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
             </div>
             <div class="footerPlay-name">
-                <h3>Just Dance</h3>
-                <h4>Lady Gaga/Colby O'Donis</h4>
+                <h3 v-text="presentPlay.album.name"></h3>
+                <h4 v-text="presentPlay.title"></h4>
             </div>
             <a><img class="footerPlay-play" ref="footerPlayPlay" @click.stop="play" src="../assets/img/icon-transmit.svg" alt=""></a>
-            <a><img class="footerPlay-list" src="../assets/img/icon-song-list-foot.svg" alt=""></a>
+            <a><img class="footerPlay-list" @click.stop="poppingSongList" src="../assets/img/icon-song-list-foot.svg" alt=""></a>
         </div>
         <div class="play-music" v-show="!cutSchema">
             <div class="play-header">
                 <a @touchstart="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
-                <h1 class="play-name">Just Dance</h1>
+                <h1 class="play-name" v-text="presentPlay.album.name">Just Dance</h1>
                 <a href="#"><img class="play-more" src="../assets/img/icon-more.svg" alt=""></a>
             </div>
 
@@ -23,7 +23,7 @@
                 <div class="masterplate-one">
                     <div class="author">
                         <div class="author-hr"></div>
-                        <h2 class="author-name">Lady Gaga/Colby O'Donis</h2>
+                        <h2 class="author-name" v-text="presentPlay.title"></h2>
                         <div class="author-hr"></div>
                     </div>
                     <div class="acoustic">
@@ -34,7 +34,7 @@
                     <div class="special">
                         <div class="cd">
                             <div class="special-cd" ref="playcd">
-                                <img src="/src/play/img/1.jpg" alt="">
+                                <img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="paly-footer">
                 <div class="schedule">
                     <span>{{presentItem}}</span>
@@ -58,12 +58,12 @@
                 <div class="play-back">
                     <a>
                         <img class="paly-select" @click="cutmodel($event)" 
-                        src="../assets/img/icon-list-circulation.svg" alt="">
+                        :src="cutPlayPattern" alt="">
                     </a>
                     <a><img class="paly-cut" @click="lastMusic" src="../assets/img/icon-last.svg" alt=""></a>
                     <a><img @click="play" class="paly-transmit" src="../assets/img/icon-transmit.svg" alt=""></a>
                     <a><img class="paly-cut" @click="nextMusic" src="../assets/img/icon-next.svg" alt=""></a>
-                    <a><img class="paly-select" src="../assets/img/icon-song-list.svg" alt=""></a>
+                    <a @click="poppingSongList"><img class="paly-select" src="../assets/img/icon-song-list.svg" alt=""></a>
                 </div>
                 <div class="play-option">
                     <a><img class="addLike" src="../assets/img/icon-like.svg" alt=""></a>
@@ -71,12 +71,44 @@
                     <a><img src="../assets/img/icon-share.svg" alt=""></a>
                     <a><img src="../assets/img/icon-comment.svg" alt=""></a>
                 </div>
-                
-                <audio class="audio" src="src/assets/mp3/1.mp3" ref="audio"></audio>
+                <audio class="audio" ref="audio"></audio>
             </div>
         </div>
-        <div :class="cutSchema ? '' : 'setting'"></div>
+        <div class="setting" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt=""></div>
         <div :class="cutSchema ? '' : 'setting2'"></div>
+        <div class="songList" v-show="songlist">
+            <div class="songList-list">
+            <div class="songList-option">
+                <a>
+                    <img class="paly-select" @click="cutmodel($event)" 
+                    :src="cutPlayPattern" alt="">
+                    <span v-text="cutPlayPatternEx"></span>
+                </a>
+                <div class="songList-options">
+                    <a><img src="../assets/img/icon-download.svg" alt=""></a>
+                    <a><img src="../assets/img/icon-add-List.svg" alt=""></a>
+                    <a><img src="../assets/img/icon-empty-list.svg" alt=""></a>
+                </div>
+            </div>
+            <div class="MusicList">
+                <div class="MusicList-song" @click="popupList(index)" :class=" item.id == presentPlay.id ? 'MusicList-song-play' : '' " :key="item.id" v-for="(item,index) in songJons">
+                    <div class="MusicList-songName">
+                        <p>
+                            {{item.title}}
+                            <span> - {{item.album.name}} </span>
+                        </p>
+                        <img v-show="item.id == presentPlay.id" src="../assets/img/icon-play-center.svg" alt="">
+                    </div>
+                    <div class="MusicList-right">
+                        <a><img src="../assets/img/icon-like.svg" alt=""></a>
+                        <a><img src="../assets/img/icon-close.svg" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="songList-close" @click="songlist=0">关闭</div>
+            </div>
+            <div class="songList-mask" @click="songlist=0" v-show="songlist"></div>
+        </div>
     </footer>
 </template>
 
@@ -87,6 +119,8 @@
     import circulate from '../assets/img/icon-list-circulation.svg' //列表循环
     import one from '../assets/img/icon-one-circulate.svg' //单曲循环
     import random from '../assets/img/icon-random-circulate.svg' //随机播放
+    import base64 from 'js-base64'//歌词解析
+    import ajax from '../assets/js/ajax.js'
 
     export default {
 
@@ -102,17 +136,30 @@
                 repeat: 1,
                 count: 0,
                 audio: 0,
+                songlist: 0,
+                presentPlay: JSON.parse(localStorage.getItem("currentPlay")),
+                songJons: JSON.parse(localStorage.getItem("music")),
+                cutPlayPattern: '/src/assets/img/icon-list-circulation.svg',
+                cutPlayPatternEx: '列表循环',
                 music: 0
             }
         },
         mounted: function(){
-
-            this.audio = this.$refs.audio;
             
-            // var vm = this;
+            this.audio = this.$refs.audio;
+            window.addEventListener("setItemEvent",  (e)=> {
+                
+                if(e.newKey === "currentPlay"){
+                    this.presentPlay = JSON.parse(e.newValue);
+                    this.cut = 1;
+                    this.music.init();
+                    this.music.transmit();
+                }
+                
+            });
+
             this.music = {
                 
-                songList: ['src/assets/mp3/1.mp3','src/assets/mp3/2.mp3','src/assets/mp3/3.mp3'],
                 item: this,
                 key: null,//用来清除帧动画
                 palyTransmit: document.querySelector('.paly-transmit'),
@@ -133,50 +180,65 @@
                     }
 
                     if( this.item.cut ){
+                        this.item.audio.src = `http://ws.stream.qqmusic.qq.com/${this.item.presentPlay.id}.m4a?fromtag=46`;
+                        this.item.audio.load;
                         this.item.audio.play();
                         this.palyTransmit.src = suspend;
                         this.footerPlayPlay.src = suspend;
                         frame();
+
                     }else{
                         this.item.audio.pause();
                         this.palyTransmit.src = paly;
                         this.footerPlayPlay.src = paly;
-
                         window.cancelAnimationFrame(this.key);
+
                     }
                     
                     this.item.sumItem = this.transTime( this.item.audio.duration || 0 );
 
                     this.item.audio.ondurationchange = ()=>{
                         this.item.sumItem = this.transTime(this.item.audio.duration);//总时间
+                        this.item.audio.addEventListener('timeupdate', ()=> {
+                            this.updateProgress(this.item.audio);
+                        }, false);
                     }
-                    
-                    this.item.audio.addEventListener('timeupdate', ()=> {
-                        this.updateProgress(this.item.audio);
-                    }, false);
 
                 },
 
                 //进度条
                 updateProgress: function(audio) {
                     
-                    var value = audio.currentTime / audio.duration;
+                    var value = audio.currentTime / audio.duration || 0;
                     
                     this.item.rangePlan = value * 100;
                     this.item.progressBar = value * 100;
                     
-                    if( this.item.cut ){
+                    if( this.item.cut && audio.ended ){
                         
-                        if(audio.ended){
-                            
-                            this.palyTransmit.src = paly;
-                            this.item.rangePlan = 0;
-                            this.item.progressBar = 0;
-                            window.cancelAnimationFrame(this.key);
+                        this.palyTransmit.src = paly;
+                        this.item.rangePlan = 0;
+                        this.item.progressBar = 0;
+                        window.cancelAnimationFrame(this.key);
+
+                        if( this.item.repeat == 2 ){
+                           
                             this.item.cut = 0;
+                            this.transmit();
+                        }
+
+                        if( this.item.repeat == 0 ){
+                            
+                            this.switch(2);
+                        }
+
+                        if( this.item.repeat == 1 ){
+                            
+                            this.switch(1);
                         }
 
                     }
+
                     this.item.presentItem = this.transTime(audio.currentTime);//当前播放时间
                     
                 },
@@ -226,26 +288,42 @@
                     }
                     
                 },
+                //切歌
                 switch: function( judge ){
-
-                    var srcIndex = this.item.audio.currentSrc.indexOf('src/');
-                    var src = this.item.audio.currentSrc.slice(srcIndex,this.item.audio.currentSrc.length);
-                    var index = this.songList.indexOf(src);
-                    console.log(src);
-                    console.log(index);
-                    index += judge;
-                    if( index == 0 ){
-                        index = this.songList.length;
-                    }
-
-                    if( index == this.songList.length ){
-                        index = -1;
-                    }
-
-                    this.item.audio.src = this.songList[index];
                     
-                    this.init();
-                    this.transmit();
+                    var random = Math.floor(Math.random()*this.item.songJons.length);
+                    var ine = 0;
+                    
+                    if( judge == 2 ){
+                        ine = random;
+                    }
+
+                    if( judge == -1 || judge == 1 ){
+                        
+                        this.item.songJons.forEach(function(element,index) {
+                            if( element.id === this.item.presentPlay.id ){
+                                console.log(index);
+                                ine = index;
+                            }
+                        }, this);
+
+                        ine += judge;
+
+                        if( ine == -1 ){
+                            index = this.item.songJons.length-1;
+                        }
+                        
+                        if( ine == this.item.songJons.length ){
+                            ine = 0;
+                        }
+
+                    }
+                    
+                    
+                    localStorage.setItem("currentPlay",JSON.stringify(this.item.songJons[ine]))
+                    
+                    // this.init();
+                    // this.transmit();
 
                 }
             }
@@ -257,7 +335,11 @@
                 this.music.transmit();
 
             },
+            popupList(index){
 
+                localStorage.setItem("currentPlay",JSON.stringify(this.songJons[index]));
+
+            },
             plan(event){
 
                 var audio = document.querySelector('.audio');
@@ -269,38 +351,72 @@
                 if( !this.cut ){
                     this.progressBar = this.progressBar;
                     this.rangePlan = this.rangePlan;
-                    console.log(this.rangePlan);
                 }
 
             },
+            poppingSongList(){
 
+                this.songlist = 1;
+
+                //等待渲染完成后执行
+                this.$nextTick(() => {
+
+                    var MusicList = document.querySelector('.MusicList');
+                    var MusicListSongPlay = document.querySelector('.MusicList-song-play');
+                    var top = MusicListSongPlay.offsetTop;//offsetTop参考父类最近的地位元素
+                    
+                    MusicList.scrollTop = top;
+
+                });
+
+            },
             cutmodel( event ){
                 var eve = event.target;
                 this.repeat++;
 
+                //列表循环
                 if( this.repeat == 1 ){
-                    eve.src = circulate;
+                    this.cutPlayPatternEx = '列表循环';
+                    this.cutPlayPattern = circulate;
                 }
 
+                //单曲循环
                 if( this.repeat == 2 ){
-                    eve.src = one;
+                    this.cutPlayPatternEx = '单曲循环';
+                    this.cutPlayPattern = one;
                 }
 
+                //随机播放
                 if( this.repeat == 3 ){
-                    eve.src = random;
+                    this.cutPlayPatternEx = '随机播放';
+                    this.cutPlayPattern = random;
                     this.repeat = 0;
                 }
-
+                
             },
 
             lastMusic(){
 
-                this.music.switch(-1);
+                if( this.repeat == 0 ){
+                    this.music.switch(2);
+                }
+                
+                if( this.repeat == 1 || this.repeat == 2 ){
+                    this.music.switch(-1);
+                }
                 
             },
 
             nextMusic(){
-                this.music.switch(1);
+
+                if( this.repeat == 0 ){
+                    this.music.switch(2);
+                }
+
+                if( this.repeat == 1 || this.repeat == 2 ){
+                    this.music.switch(1);
+                }
+
             }
 
         }
@@ -311,7 +427,7 @@
 
 <style lang="scss">
     
-    @import '../assets/css/footer.scss';
+    @import '../assets/css/common.scss';
 
 </style>
 
