@@ -79,7 +79,7 @@
         </div>
         <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt=""></div>
         <div :class="cutSchema ? '' : 'setting2'" v-if="presentPlay"></div>
-        <div class="songList" v-show="songlist" v-if="songJons">
+        <div class="songList" v-show="songlist">
             <div class="songList-list">
             <div class="songList-option">
                 <a>
@@ -94,13 +94,13 @@
                 </div>
             </div>
             <div class="MusicList">
-                <div class="MusicList-song" @click="popupList(index)" :class=" item.id == presentPlay.id ? 'MusicList-song-play' : '' " :key="item.id" v-for="(item,index) in songJons">
+                <div class="MusicList-song" v-for="(item,index) in songJons" @click="popupList(index)" :class=" item.id == (presentPlay && presentPlay.id) ? 'MusicList-song-play' : '' " :key="item.id">
                     <div class="MusicList-songName">
                         <p>
                             {{item.title}}
                             <span> - {{item.album.name}} </span>
                         </p>
-                        <img v-show="item.id == presentPlay.id" src="../assets/img/icon-play-center.svg" alt="">
+                        <img v-show="item.id == (presentPlay && presentPlay.id)" src="../assets/img/icon-play-center.svg" alt="">
                     </div>
                     <div class="MusicList-right">
                         <a><img src="../assets/img/icon-like.svg" alt=""></a>
@@ -151,14 +151,14 @@
             
             this.audio = this.$refs.audio;
             window.addEventListener("setItemEvent",  (e)=> {
-                this.presentPlay = JSON.parse(localStorage.getItem("currentPlay"));
                 this.songJons = JSON.parse(localStorage.getItem("localmusic"));
                 if(e.newKey === "currentPlay"){
+
                     this.presentPlay = JSON.parse(e.newValue);
                     this.cut = 1;
                     this.music.init();
                     this.music.transmit();
-                    
+
                 }
                 
             });
@@ -176,7 +176,7 @@
                 transmit: function(){
                     
                     this.item.cut = !this.item.cut;
-                    console.log(this.item.audio);
+                    
                     var frame = ()=>{
                         this.item.count+=0.1;
                         this.playcd.style = "transform: rotate("+this.item.count+"deg)";
@@ -306,7 +306,6 @@
                         
                         this.item.songJons.forEach(function(element,index) {
                             if( element.id === this.item.presentPlay.id ){
-                                console.log(index);
                                 ine = index;
                             }
                         }, this);
@@ -335,9 +334,14 @@
         methods: {
             
             play(){
-                
-                this.music.transmit();
 
+                if( !this.presentPlay ){
+                    // console.log(JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]));
+                    localStorage.setItem("currentPlay",JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]));
+                }else{
+
+                    this.music.transmit();
+                }
             },
             popupList(index){
 
@@ -361,11 +365,12 @@
             poppingSongList(){
                 
                 if( this.songJons ){
+
                     this.songlist = 1;
 
                     //等待渲染完成后执行
                     this.$nextTick(() => {
-
+                    
                         var MusicList = document.querySelector('.MusicList');
                         var MusicListSongPlay = document.querySelector('.MusicList-song-play');
                         var top = MusicListSongPlay.offsetTop;//offsetTop参考父类最近的地位元素
