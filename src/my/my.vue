@@ -11,9 +11,15 @@
             </div>
             <div id="login-success">
                 <div class="login-title">
-                    <a class="listen-time"> <img src="./img/icon-listen.svg"><span v-text="time"></span>分钟</a>
+                    <div class="flexd">
+                        <a class="listen-time "> <img src="./img/icon-listen.svg"><span v-text="time"></span>分钟</a>
+                    </div>
+                    
                     <a class="avatar"><img src="./img/avatar.jpg"></a>
-                    <a class="dredge-green"><img src="./img/icon-green-ti.svg"><img src="./img/icon-zuan.svg" class="center">  开通</a>
+                    <div class="flexd">
+                        <a class="dredge-green flexd"><img src="./img/icon-green-ti.svg"><img src="./img/icon-zuan.svg" class="center">  开通</a>
+                    </div>
+                    
                 </div>
                 <div class="user-area">
                     <div class="line"></div>
@@ -175,13 +181,13 @@
                 this.time = localStorage.getItem('time');
             }
         },
-        created(){
+        async created(){
             // var arr = JSON.parse(localStorage.getItem('music'));
             // console.log(arr)
             // if( arr){
             //     this.songNum = arr.length;
             // }
-            ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
+            let data = await ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
                 new_format:1,
                 pic:500,
                 disstid:2646688496,
@@ -190,13 +196,13 @@
                 utf8:1,
                 onlysong:0,
                 nosign:1
-            },{param: 'jsonpCallback', name: 'jp0'}).then(res => {
-                this.localmusic = res.cdlist[0].songlist;
-                this.songNum = this.localmusic.length;
-                localStorage.setItem('localmusic',JSON.stringify(this.localmusic));
-            })
+            },{param: 'jsonpCallback', name: 'jp0'});
 
+            this.localmusic = data.cdlist[0].songlist;
+            this.songNum = this.localmusic.length;
+            localStorage.setItem('localmusic',JSON.stringify(this.localmusic));
         },
+
         mounted(){
             this.getdate();
             setInterval(()=>{
@@ -464,6 +470,9 @@
             img{
                 float: left;
                 margin-right: 0.05rem;
+            }
+            .flexd{
+                flex: 1;
             }
         }    
         .avatar{
