@@ -1,5 +1,6 @@
 
-const path = require('path');
+const path = require('path'),
+      autoprefixer = require('autoprefixer');
 
 module.exports = {
 
@@ -11,24 +12,31 @@ module.exports = {
     },
 
     resolve: {
+        
         alias: {
-            // 'mp3': path.resolve(__dirname, './src/play/mp3')
-        }
+            'assets': path.resolve(__dirname, './src/assets')
+        },
+        extensions: ['.json','.js']
     },
 
     module: {
         rules: [
-            {test: /\.vue$/, use: 'vue-loader'},
-            {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},
-            {test: /\.(png|jpg|svg)$/, use: 'url-loader?limit=2048'},
-            {
-                test: /\.(mp3)$/, 
-                loader: 'file-loader',
+            {  
+                test: /\.vue$/, 
+                loader: 'vue-loader',
                 options: {
-                    name: 'mp3/[name].[ext]' //[name].[ext] 是把文件原名当成构建后的名，
-                                            //如果不加，他会默认以哈希码的格式构建
+                    scss: 'vue-style-loader!css-loader!sass-loader',
+                    postcss: [autoprefixer()]
                 }
-            }
+            },
+            {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+            {
+                test: /\.json$/, loader: 'file-loader', exclude: /node_modules/,
+                options: {
+                    name: 'data/[name].[ext]'
+                }
+            },
+            {test: /\.(png|jpg|svg)$/, loader: 'url-loader?limit=2048'}
         ]
     },
 

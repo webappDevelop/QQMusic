@@ -245,12 +245,12 @@
 
     import Ajax from '../assets/js/ajax.js'
     import Carousel from './components/carousel.vue'
+    import dataUrl from 'assets/falseData/falseData.json'
 
     export default {
 
         data(){
             return {
-
                 touchClickX: 0,
                 moveX: 0,
                 currentX: 0,
@@ -260,7 +260,8 @@
         },
 
         created(){
-            Ajax.get('/src/find/falseData/falseData.json').then(res => {
+
+            Ajax.getJson(dataUrl).then(res => {
                 this.findList = res.data.findList;
             });
         },
