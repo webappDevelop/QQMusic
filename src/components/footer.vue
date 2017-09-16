@@ -314,13 +314,14 @@
                             if( (element.id || element.data.songid ) === (this.item.presentPlay.id || this.item.presentPlay.data.songid) ){
                                 
                                 ine = index;
+
                             }
                         }, this);
 
                         ine += judge;
-
+                        
                         if( ine == -1 ){
-                            index = this.item.songJons.length-1;
+                            ine = this.item.songJons.length-1;
                         }
                         
                         if( ine == this.item.songJons.length ){
@@ -343,6 +344,7 @@
                 }else{
                     this.music.transmit();
                 }
+
             },
             popupList(index){
                 localStorage.setItem("currentPlay",JSON.stringify(this.songJons[index]));
