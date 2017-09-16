@@ -1,4 +1,5 @@
 
+import Search from '../components/search.vue' 
 import My from '../my/my.vue'
 import MusicHall from '../musicHall/musicHall.vue'
 import Find from '../find/find.vue'
@@ -6,14 +7,20 @@ import History from '../my/history/history.vue'
 import Ranking from '../musicHall/ranking/ranking.vue'
 import SongList from '../musicHall/songList/songList.vue'
 import List from '../my/list/list.vue'
-import localMusic from '../my/localmusic/localmusic.vue'
+import LocalMusic from '../my/localmusic/localmusic.vue'
 import ListOfSongs from '../musicHall/ranking/ListOfSongs/ListOfSongs.vue'
+import Login from '../my/login/login.vue'
 
 export default {
     routes: [
         {
             path: '/',
             redirect: '/my'
+        },
+        {
+            name: 'search',
+            path: '/search',
+            component: Search
         },
         {
             name: 'my',
@@ -58,7 +65,12 @@ export default {
         {
             name: 'localMusic',
             path: '/localMusic',
-            component: localMusic
+            component: LocalMusic
+        },
+        {
+            name: 'login',
+            path: '/login',
+            component: Login
         }
     ]
 }

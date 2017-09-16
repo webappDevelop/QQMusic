@@ -14,31 +14,95 @@
         <div class="search">
             <div class="search-btn">
                 <div>
-                    <router-link tag="input" to="my" class="search-input" type="text" :placeholder="convert ? '搜索音乐、歌词、歌单' : '搜索'" @focus.native="convert=1" @blur.native="convert=0"></router-link>
-                    <div class="cancel">
-                        取消
-                    </div>
+                    <router-link tag="input"  to="search" class="search-input"  type="text"maxlength='18'
+                    :placeholder="convert ? '搜索音乐、歌词、歌单' : '搜索'"
+                    @touchstart.native="skip($event)"
+                    @keydown.native.enter="add($event)"
+                    @input.native="input($event)">
+                    </router-link>
+                    <router-link tag="div" to="" class="cancel" @touchstart.native="routerback($event)">取消</router-link>
                 </div>
             </div>
         </div>
-        
         
     </header>
 </template>
 
 <script>
+
+    import ajax from '../assets/js/ajax.js'
     export default {
         data(){
             return{
                 selected: 1,
                 convert: 0,
+                time: 0,
             }
         },
-
-        methods: {
-            change: function (){
-                console.log('???');
+        mounted: function(){
+            localStorage.clear();
+            if(localStorage.getItem('history') === null){
+                localStorage.setItem('history',JSON.stringify([]));
             }
+        },
+        methods: {
+            routerback: function (e) {
+                this.$router.back(-1);
+                this.$emit('changed','slide');
+                this.convert=0;
+            },
+            skip: function(e){
+                this.$emit('changed','');
+                this.convert=1;
+                var tar = e.target;
+                tar.setAttribute('autofocus',true);
+            },
+            add: function(e){
+                var val = e.target.value;
+                if(val === '') return;
+
+                // localStorage.clear();
+                var history = JSON.parse(localStorage.getItem('history'));
+                history.unshift(val);
+                console.log([...(new Set(history))]);
+                localStorage.setItem('history',JSON.stringify([...(new Set(history))]));
+                console.log(localStorage);
+                // this.input();
+            },
+            input: function(e){
+                console.log(e.target.value);
+                if(this.time){
+                    return;
+                }
+                this.time = 1;
+
+                ajax.jsonp('https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',{
+                g_tk:5381,
+                uin:0,
+                format:'json',
+                inCharset:'utf-8',
+                outCharset:'utf-8',
+                notice:0,
+                platform:'h5',
+                needNewCode:1,
+                w: e.target.value,
+                zhidaqu:1,
+                catZhida:1,
+                t:0,
+                flag:1,
+                ie:'utf-8',
+                sem:1,
+                aggr:0,
+                perpage:20,
+                n:20,
+                p:1,
+                remoteplace:'txt.mqq.all'
+                }).then((res)=>{
+                    console.log(res);
+                    this.time = 0;
+                })
+            }
+
         }
     }
 </script>
@@ -58,6 +122,15 @@
 
         .nav{
             height: 0;
+        }
+        .search{
+
+            .search-btn input{
+                width: calc(100% - 2rem);
+                text-indent: 0.2rem;
+                background-position: -0.3rem 0.2rem;
+                border-radius: 0.08rem;
+            }
         }
     }
 
@@ -153,6 +226,7 @@
                 font-size: 0.30rem;
                 line-height: 0.64rem;
                 text-indent: 3.4rem;
+                color: #fff;
                 background: #2baa6b url("../assets/img/icon-search.svg") no-repeat 3.1rem 0.2rem;
                 background-size: 0.28rem;
                 transition: all $time;
@@ -161,13 +235,6 @@
             input::-webkit-input-placeholder{
                 color: rgba(255,255,255,0.9);
             }
-            input:focus{
-                width: calc(100% - 2rem);
-                text-indent: 0.2rem;
-                background-position: -0.3rem 0.2rem;
-                border-radius: 0.08rem;
-            }
-
             .cancel{
                 float: left;
                 height: 100%;

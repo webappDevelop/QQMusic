@@ -1,10 +1,12 @@
 <template>
   <div id="songList" class="songList">
       <div class="songList-mod">
-        <div class="songList-menu-btn2">
+        <div class="songList-menu-btn2" :style="'background: url('+data.cdlist[0].logo+') center center; background-size: 100%;'">
             <router-link to="musicHall">
                 <img src="../ranking/img/the-left-arrow.svg">
             </router-link>
+
+            <div class="menu-title" v-text="data && data.cdlist[0].dissname"></div>
         </div>
 
         <div class="songList-listSelect">
@@ -20,89 +22,23 @@
 
         <div id="songList-left-body" :class="index !== 0 && 'display'">
             <ul>
-                <li>
-                    <div class="songList-musicRanking">
-                        <i>1</i>
-                        <span>123%</span>
-                    </div>
+                <li v-for="(item, index) in data.cdlist[0].songlist" :key="index">
                     <div class="songList-musicMessage">
                         <div class="songList-messageTitle">
-                            <title>追梦赤子心</title>
+                            <title v-text="item.title"></title>
                             <img src="../ranking/ListOfSongs/img/SQ.svg" >
                             <img src="../ranking/ListOfSongs/img/MV2.svg" >
                             <img src="../ranking/ListOfSongs/img/exclusive.svg">
                         </div>
                         <div class="songList-singerMessage">
-                            吴亦凡 / 红花会PG ONE · 中国有嘻哈 第12期
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="songList-musicRanking">
-                        <i>2</i>
-                        <span>123%</span>
-                    </div>
-                    <div class="songList-musicMessage">
-                        <div class="songList-messageTitle">
-                            <title>追梦赤子心</title>
-                            <img src="../ranking/ListOfSongs/img/SQ.svg" >
-                            <img src="../ranking/ListOfSongs/img/MV2.svg" >
-                            <img src="../ranking/ListOfSongs/img/exclusive.svg">
-                        </div>
-                        <div class="songList-singerMessage">
-                            吴亦凡 / 红花会PG ONE · 中国有嘻哈 第12期
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="songList-musicRanking">
-                        <i>3</i>
-                        <span>123%</span>
-                    </div>
-                    <div class="songList-musicMessage">
-                        <div class="songList-messageTitle">
-                            <title>追梦赤子心</title>
-                            <img src="../ranking/ListOfSongs/img/SQ.svg" >
-                            <img src="../ranking/ListOfSongs/img/MV2.svg" >
-                            <img src="../ranking/ListOfSongs/img/exclusive.svg">
-                        </div>
-                        <div class="songList-singerMessage">
-                            吴亦凡 / 红花会PG ONE · 中国有嘻哈 第12期
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="songList-musicRanking">
-                        <i>4</i>
-                        <span>123%</span>
-                    </div>
-                    <div class="songList-musicMessage">
-                        <div class="songList-messageTitle">
-                            <title>追梦赤子心</title>
-                            <img src="../ranking/ListOfSongs/img/SQ.svg" >
-                            <img src="../ranking/ListOfSongs/img/MV2.svg" >
-                            <img src="../ranking/ListOfSongs/img/exclusive.svg">
-                        </div>
-                        <div class="songList-singerMessage">
-                            吴亦凡 / 红花会PG ONE · 中国有嘻哈 第12期
+                           {{item.album.name}}
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
 
-        <div id="songList-right-body" :class="index !== 1 && 'display'">
-            <div class="songList-rightMessageTitle">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</div>
-            <ul>
-                <li>更新时间：<span>每天上午10点</span></li>
-                <li>统计对象：<span>QQ音乐库内全部歌曲</span></li>
-                <li>排名数量：<span></span></li>
-                <li>统计算法：<span></span></li>
-                <li>有效播放次数：<span></span></li>
-            </ul>
+        <div id="songList-right-body" :class="index !== 1 && 'display'" v-html="data.cdlist[0].desc">
         </div>
       </div>
   </div>
@@ -115,37 +51,43 @@
         data(){
             return {
                 index: 0,
-                data: null
+                data: null,
+                songlist: null
             }
         },
 
         async created(){
-            let date = await Ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
+            let data = await Ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
                 g_tk:5381,
-                uin:0,
-                format:'json',
-                inCharset:'utf-8',
-                outCharset:'utf-8',
-                notice:0,
-                platform:'h5',
-                needNewCode:1,
+                uin: 0,
+                format: 'json',
+                inCharset: 'utf-8',
+                outCharset: 'utf-8',
+                notice: 0,
+                platform: 'h5',
+                needNewCode: 1,
                 new_format: 1,
                 pic: 500,
-                tpl:3,
-                page:'detail',
-                type:'top',
-                disstid: this.$route.params.id
-            });
+                disstid: this.$route.params.id,
+                type: 1,
+                json: 1,
+                utf8: 1,
+                onlysong: 0,
+                nosign: 1
+            },{param: 'jsonpCallback', name: 'jp0'});
 
-            // this.data = data;
+            this.data = data;
+            this.songlist = data.cdlist.songlist;
 
-            // console.log( this.data );
+            for( var i=0; i<this.data.cdlist[0].songlist.length; i++ ){
+                this.data.cdlist[0].songlist[i].album.name = this.data.cdlist[0].songlist[0].singer[i].name+'  · '+this.data.cdlist[0].songlist[i].album.name;
+            }
+
             
+
+            console.log( this.songlist );
+            console.log( this.data.cdlist[0].songlist[0].singer[0].name, this.data.cdlist[0].songlist[0].album.name );
         },
-
-        
-
-        // c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg
 
         methods: {
             switchClick( index ){
@@ -270,48 +212,31 @@
         }
     }
 
-    .songList-musicRanking{
-        float: left;
-        width: 1rem;
-        height: 100%;
-        text-align: center;
-        line-height: 0;
-
-        i{
-            display: inline-block;
-            font-style: normal;
-            font-size: 0.5rem;
-            margin-top: 0.5rem;
-            color: #666666;
-        }
-
-        span{
-            display: inline-block;
-            font-size: 0.12rem;
-            color: #6a6a6a;
-            margin-top: 0.4rem;
-        }
-    }
-
     .songList-musicMessage{
         position: relative;
-        float: left;
-        width: calc( 100% - 1rem );
+        float: right;
+        width: calc( 100% - 0.5rem );
         height: 100%;
         border-bottom: 0.01rem solid #e6e6e6;
 
-
         .songList-messageTitle{
+            width: 90%;
             height: calc( 50% - 0.2rem );
             font-size: 0.3rem;
-            color: #262626;
+            color: #000;
             padding-top: 0.2rem;
 
             title{
-                display: inline;
+                display: inline-block;
+                float: left;
+                max-width: 80%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             img{
+                float: left;
                 height: 0.3rem;
             }
         }
@@ -325,6 +250,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: #666666;
     }
 
     #songList-right-body{
