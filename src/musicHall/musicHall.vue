@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="PlaylistRecommended-body">
-                    <router-link tag="div" class="individual" v-for="item in sliders" :key="item.id" :to="{name: 'songList', params:{id: item.id}}">
+                    <router-link tag="div" class="individual" v-for="item in sliders" :key="item.id" :to="{name: 'songlist', params:{id: item.id}}">
                         <div class="individual-img" :style="'background: url('+item.picUrl+') center center; background-size: 100%;'">
                             <div class="earphone">{{ item.accessnum }}万</div>
                             <img src="./img/play.svg">
@@ -130,8 +130,6 @@
             }
 
             this.sliders = data.data.songList;
-
-            console.log( this.sliders[0].id);
         }
     }
 </script>
