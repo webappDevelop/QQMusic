@@ -2,8 +2,8 @@
 <template>
     <div class="search-result">
         <h4>热门搜索</h4>
-        <div class="keyword-list">
-            <div v-for="index in 12" :key="index">{{hotSearch[index].k}}</div>
+        <div class="keyword-list" data-unfinished="true">
+            <div v-for="(item,index) in hotSearch" :key="index">{{item.k}}</div>
         </div>
         
         <div class="history">
@@ -101,6 +101,8 @@
 
         .keyword-list{
             padding-bottom: 0.2rem;
+            height: 2.3rem;
+            overflow: hidden;
 
             &:after{
                 content: '';
@@ -115,7 +117,6 @@
                 border: 0.01rem solid rgba(0,0,0,0.3);
                 border-radius: 0.5rem;
                 font-size: 0.26rem;
-
             }
         }
     }

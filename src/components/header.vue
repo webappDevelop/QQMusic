@@ -1,26 +1,27 @@
 <template>
     <header :class="convert && 'header-search'">
         <nav class="nav">
-            <div><i class="catalogue-icon"></i></div>
+            <div><i class="catalogue-icon" data-unfinished="true"></i></div>
             <div class="list">
                 <router-link to="my" :class="selected===1 && 'selected'" @touchstart.native="selected=1">我的</router-link>
                 <router-link to="musicHall" :class="selected===2 && 'selected'" @touchstart.native="selected=2">音乐馆</router-link>
                 <router-link to="find" :class="selected===3 && 'selected'" @touchstart.native="selected=3">发现</router-link>
             </div>
             <div class="isMusic">
-                <img src="../assets/img/icon-ismusic.png" alt="">
+                <img src="../assets/img/icon-ismusic.png" alt="" data-unfinished="true">
             </div>
         </nav>
         <div class="search">
             <div class="search-btn">
                 <div>
-                    <router-link tag="input"  to="search" class="search-input"  type="text"maxlength='18'
+                    <router-link tag="input" to="search" class="search-input"  type="text" maxlength='18'
                     :placeholder="convert ? '搜索音乐、歌词、歌单' : '搜索'"
-                    @touchstart.native="skip($event)"
+                    @focus.native="skip()"
                     @keydown.native.enter="add($event)"
-                    @input.native="input($event)">
+                    @input.native="input($event)"
+                    data-unfinished="true">
                     </router-link>
-                    <router-link tag="div" to="" class="cancel" @touchstart.native="routerback($event)">取消</router-link>
+                    <router-link tag="div" to="" class="cancel" @click.native="routerback($event)">取消</router-link>
                 </div>
             </div>
         </div>
@@ -36,7 +37,7 @@
             return{
                 selected: 1,
                 convert: 0,
-                time: 0,
+                time: 0
             }
         },
         mounted: function(){
@@ -45,62 +46,65 @@
                 localStorage.setItem('history',JSON.stringify([]));
             }
         },
+        watch: {
+            convert(){
+
+            }
+        },
         methods: {
             routerback: function (e) {
-                this.$router.back(-1);
+                this.$router.back();
                 this.$emit('changed','slide');
                 this.convert=0;
             },
             skip: function(e){
                 this.$emit('changed','');
                 this.convert=1;
-                var tar = e.target;
-                tar.setAttribute('autofocus',true);
             },
             add: function(e){
                 var val = e.target.value;
                 if(val === '') return;
 
-                // localStorage.clear();
+                if(localStorage.getItem('history') === null){
+                    localStorage.setItem('history',JSON.stringify([]));
+                }
+
                 var history = JSON.parse(localStorage.getItem('history'));
                 history.unshift(val);
-                console.log([...(new Set(history))]);
                 localStorage.setItem('history',JSON.stringify([...(new Set(history))]));
-                console.log(localStorage);
-                // this.input();
             },
             input: function(e){
-                console.log(e.target.value);
-                if(this.time){
-                    return;
-                }
-                this.time = 1;
+                // console.log(e.target.value);
+                // if(this.time){
+                //     return;
+                // }
+                // this.time = 1;
 
-                ajax.jsonp('https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',{
-                g_tk:5381,
-                uin:0,
-                format:'json',
-                inCharset:'utf-8',
-                outCharset:'utf-8',
-                notice:0,
-                platform:'h5',
-                needNewCode:1,
-                w: e.target.value,
-                zhidaqu:1,
-                catZhida:1,
-                t:0,
-                flag:1,
-                ie:'utf-8',
-                sem:1,
-                aggr:0,
-                perpage:20,
-                n:20,
-                p:1,
-                remoteplace:'txt.mqq.all'
-                }).then((res)=>{
-                    console.log(res);
-                    this.time = 0;
-                })
+                // ajax.jsonp('https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',{
+                // g_tk:5381,
+                // uin:0,
+                // format:'json',
+                // inCharset:'utf-8',
+                // outCharset:'utf-8',
+                // notice:0,
+                // platform:'h5',
+                // needNewCode:1,
+                // w: e.target.value,
+                // zhidaqu:1,
+                // catZhida:1,
+                // t:0,
+                // flag:1,
+                // ie:'utf-8',
+                // sem:1,
+                // aggr:0,
+                // perpage:20,
+                // n:20,
+                // p:1,
+                // remoteplace:'txt.mqq.all'
+                // }).then((res)=>{
+                //     console.log(res);
+                //     this.time = 0;
+                // })
             }
 
         }
@@ -225,7 +229,7 @@
                 border-radius: 0.08rem;
                 font-size: 0.30rem;
                 line-height: 0.64rem;
-                text-indent: 3.4rem;
+                text-indent: 3.5rem;
                 color: #fff;
                 background: #2baa6b url("../assets/img/icon-search.svg") no-repeat 3.1rem 0.2rem;
                 background-size: 0.28rem;
