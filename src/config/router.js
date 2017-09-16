@@ -1,4 +1,5 @@
 
+import Search from '../components/search.vue' 
 import My from '../my/my.vue'
 import MusicHall from '../musicHall/musicHall.vue'
 import Find from '../find/find.vue'
@@ -15,6 +16,11 @@ export default {
         {
             path: '/',
             redirect: '/my'
+        },
+        {
+            name: 'search',
+            path: '/search',
+            component: Search
         },
         {
             name: 'my',

@@ -1,7 +1,7 @@
 <template>
   <div id="listOfSongs" class="listOfSongs">
       <div class="listOfSongs-mod">
-        <div class="menu-btn2">
+        <div class="menu-btn2" :style="'background: url(http://y.gtimg.cn/music/common/upload/iphone_order_channel/toplist_4_300_203814024.jpg) center center; background-size: 100%; background-position-y: -1.3rem;'">
             <router-link to="ranking">
                 <img src="../img/the-left-arrow.svg">
             </router-link>
@@ -24,8 +24,8 @@
             <ul>
                 <li v-for="(item, index) in toplist && toplist.songlist" :key="index">
                     <div class="musicRanking">
-                        <i>1</i>
-                        <span>123%</span>
+                        <i>{{ ++index }}</i>
+                        <span>{{ item.in_count }}%</span>
                     </div>
                     <div class="musicMessage">
                         <div class="messageTitle">
@@ -80,6 +80,7 @@
             this.topinfo = toplist.topinfo;
 
             for( var i=0; i<this.toplist.songlist.length; i++ ){
+                this.toplist.songlist[i].in_count = parseInt( this.toplist.songlist[i].in_count * 100 );
                 if( this.toplist.songlist[i].data.singer.length > 1 ){
                     this.toplist.songlist[i].data.singer[0].name = this.toplist.songlist[i].data.singer[0].name +' / '+ this.toplist.songlist[i].data.singer[1].name;
                 }
@@ -120,9 +121,7 @@
     .menu-btn2{
         position: relative;
         width: 100%;
-        height: 4.76rem;
-        background: url(http://y.gtimg.cn/music/common/upload/iphone_order_channel/toplist_4_300_203814024.jpg) no-repeat center center;
-        background-size: 4.76rem cover;
+        height: 6rem;
         font-size: 0.33rem;
         color: #fff;
         text-align: center;
@@ -244,10 +243,14 @@
 
 
         .messageTitle{
+            max-width: 70%;
             height: calc( 50% - 0.2rem );
             font-size: 0.3rem;
             color: #262626;
             padding-top: 0.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             title{
                 display: inline;

@@ -1,45 +1,45 @@
 <template>
-        <div class="ranking">
-            <div class="ranking-mod">
-                <div class="menu-btn">
-                    <router-link to="musicHall">
-                        <img src="./img/the-left-arrow.svg">
-                    </router-link>
-                    排行
-                </div>
-                
-                <div class="ranking-body">
-                    <h3 class="ranking-body-title">QQ音乐巅峰榜</h3>
-                    <router-link tag="div" class="ranking-body-select" v-for="item in sliders.List" :key="item.id" :to="{name: 'listofsongs', params:{id: item.topID}}">
+    <div class="ranking">
+        <div class="ranking-mod">
+            <div class="menu-btn">
+                <router-link to="musicHall">
+                    <img src="./img/the-left-arrow.svg">
+                </router-link>
+                排行
+            </div>
+            
+            <div class="ranking-body">
+                <h3 class="ranking-body-title">QQ音乐巅峰榜</h3>
+                <router-link tag="div" class="ranking-body-select" v-for="item in sliders.List" :key="item.id" :to="{name: 'listofsongs', params:{id: item.topID}}">
+                    <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
+                        <div class="earphone">{{ item.listennum }}万</div>
+                        <img src="../img/play.svg">
+                    </div>
+
+                    <div class="select-music">
+                        <ul>
+                            <li><i>1</i> {{ item.songlist[0].songname }}<span> - {{ item.songlist[0].singername }}</span></li>
+                            <li><i>2</i> {{ item.songlist[1].songname }}<span> - {{ item.songlist[1].singername }}</span></li>
+                            <li><i>3</i> {{ item.songlist[2].songname }}<span> - {{ item.songlist[2].singername }}</span></li>
+                        </ul>
+
+                        <img src="./img/the-right-arrow.svg">
+                    </div>
+                </router-link>
+
+                <h3 class="ranking-body-title">全球榜</h3>
+                <div class="list-of-the-world" v-for="item in sliderss.List" :key="item.id">
+                    <div class="world-select">
                         <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
                             <div class="earphone">{{ item.listennum }}万</div>
                             <img src="../img/play.svg">
                         </div>
-
-                        <div class="select-music">
-                            <ul>
-                                <li><i>1</i> {{ item.songlist[0].songname }}<span> - {{ item.songlist[0].singername }}</span></li>
-                                <li><i>2</i> {{ item.songlist[1].songname }}<span> - {{ item.songlist[1].singername }}</span></li>
-                                <li><i>3</i> {{ item.songlist[2].songname }}<span> - {{ item.songlist[2].singername }}</span></li>
-                            </ul>
-
-                            <img src="./img/the-right-arrow.svg">
-                        </div>
-                    </router-link>
-
-                    <h3 class="ranking-body-title">全球榜</h3>
-                    <div class="list-of-the-world" v-for="item in sliderss.List" :key="item.id">
-                        <div class="world-select">
-                            <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
-                                <div class="earphone">{{ item.listennum }}万</div>
-                                <img src="../img/play.svg">
-                            </div>
-                            <h3>{{ item.ListName }}</h3>
-                        </div>
+                        <h3>{{ item.ListName }}</h3>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
