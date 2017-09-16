@@ -7,8 +7,8 @@
                 <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
             </div>
             <div class="footerPlay-name" v-if="songJons">
-                <h3 v-text="presentPlay.title"></h3>
-                <h4 v-text="presentPlay.album.name"></h4>
+                <h3 v-text="presentPlay && presentPlay.title"></h3>
+                <h4 v-text="presentPlay && presentPlay.album.name"></h4>
             </div>
             <div>
                 <a><img class="footerPlay-play" ref="footerPlayPlay" @click.stop="play" src="../assets/img/icon-transmit.svg" alt=""></a>
