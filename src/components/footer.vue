@@ -2,11 +2,11 @@
 <template>
     <footer :class="cutSchema ? '' : 'footer'">
         <div class="footerPlay" v-show="cutSchema" @click="unfold">
-            <div class="footerPlay-noPlay" v-show="!songJons">QQ音乐 听你想听的歌</div>
-            <div class="footerPlay-cd" ref="footercd" v-show="songJons">
+            <div class="footerPlay-noPlay" v-show="!presentPlay">QQ音乐 听你想听的歌</div>
+            <div class="footerPlay-cd" ref="footercd" v-show="presentPlay">
                 <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt="">
             </div>
-            <div class="footerPlay-name" v-if="songJons">
+            <div class="footerPlay-name" v-if="presentPlay">
                 <h3 v-text="presentPlay && ( presentPlay.title || presentPlay.data.songname)"></h3>
                 <h4 v-text="presentPlay && (( presentPlay.album && presentPlay.album.name) || (presentPlay.data.albumname))"></h4>
             </div>
