@@ -471,6 +471,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
             d{
                 width: 2.2rem;
                 border-top: 0.01rem solid #000;
