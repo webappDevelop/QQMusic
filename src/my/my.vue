@@ -1,15 +1,21 @@
 <template>
     <div class="container">
         <section class="login-area">
-            <div id="noLogin" class="display">
+            <div id="noLogin" v-if="isLogin == 0" >
                 <div class="none-login">
                     <h1>登录听歌，畅想高品质和无损品质曲库</h1>
                 </div>
                 <div>
-                    <button class="login-btn">立即登录</button>
+                    <!-- <router-link to="/login">
+                        <button class="login-btn">立即登录</button>
+                    </router-link> -->
+                    
+                    <a data-unfinished="true">
+                        <button class="login-btn">立即登录</button>
+                    </a>
                 </div>
             </div>
-            <div id="login-success">
+            <div id="login-success" v-if="isLogin != 0">
                 <div class="login-title">
                     <div class="flexd">
                         <a class="listen-time "> <img src="./img/icon-listen.svg"><span v-text="time"></span>分钟</a>
@@ -40,9 +46,11 @@
                     </router-link> 
                 </div>
                 <div>
-                    <img src="./img/icon-download.png">
-                    <p>下载歌曲</p>
-                    <p><span></span></p>
+                    <a data-unfinished="true">
+                        <img src="./img/icon-download.png">
+                        <p>下载歌曲</p>
+                        <p><span></span></p>
+                    </a>
                 </div> 
                 <div>
                     <router-link to="/history">
@@ -52,24 +60,30 @@
                     </router-link> 
                 </div>
                 <div>
-                    <img src="./img/icon-mylike.png">
-                    <p>我喜欢</p>
-                    <p><span></span></p>
+                    <a data-unfinished="true">
+                        <img src="./img/icon-mylike.png">
+                        <p>我喜欢</p>
+                        <p><span></span></p>
+                    </a>
                 </div>
                 <div>
-                    <img src="./img/icon-play-mv.png">
-                    <p>下载MV</p>
+                    <a data-unfinished="true">
+                        <img src="./img/icon-play-mv.png">
+                        <p>下载MV</p>
+                    </a>
                 </div> 
                 <div>
-                    <img src="./img/icon-buy-music.png">
-                    <p>已购音乐</p>
+                    <a data-unfinished="true">
+                        <img src="./img/icon-buy-music.png">
+                        <p>已购音乐</p>
+                    </a>
                 </div>
             </div>
             
         </section>
 
         <section>
-            <div class="radio-station">
+            <div class="radio-station" data-unfinished="true">
                 <div class="radio-station-avatar">
                     <img src="./img/icon-play-gray.svg" alt="">
                 </div>
@@ -78,12 +92,12 @@
                     <p><span>听专属于的你音乐</span></p>
                 </div>
             </div>
-            <div class="radio-station none-margin">
+            <div class="radio-station none-margin"  data-unfinished="true">
                 <div class="radio-station-avatar">
                     <img src="./img/icon-run.svg" alt="">
                 </div>
                 <div class="radio-station-meg">
-                    <p>跑步店淘</p>
+                    <p>跑步电台</p>
                     <p><span>qq音乐X腾讯公益111111111111111111111111111</span></p>
                 </div>
             </div>
@@ -96,8 +110,10 @@
                     <span @click="isShow=1"  :class="isShow && 'active'">自建歌单 <i>{{count}}</i></span> <span class="split"></span> <span @click="isShow=0" :class="!isShow && 'active'">收藏歌单</span>d
                 </div>
                 <div class="list-option">
-                    <router-link to="list"><img src="./img/icon-plus.svg" alt=""></router-link>
-                    <a><img src="./img/icon-list-collect.svg" alt=""></a>
+                    <!-- <a @click="golist"><img src="./img/icon-plus.svg" alt=""></a> -->
+                    <a data-unfinished="true"><img src="./img/icon-plus.svg" alt=""></a>
+                    
+                    <a data-unfinished="true"><img src="./img/icon-list-collect.svg" alt=""></a>
                 </div>
             </div>
             <div class="music-list-area" v-if="isShow">
@@ -170,15 +186,20 @@
             return{
                 count: '',
                 isShow: 1,
-                isLogin: 1,
+                isLogin: 0,
                 songNum: null,
                 time: 1,
-                localmusic: []
+                localmusic: [],
             }
         },
         methods:{
             getdate(){
                 this.time = localStorage.getItem('time');
+            },
+            golist(){
+                if(this.isLogin){
+                    this.$router.push({path:'/list'})
+                }
             }
         },
         async created(){
@@ -437,7 +458,7 @@
             border: none;
             background: none;
             color: #31c27c;
-            font-size: 0.34rem;
+            font-size: 0.3rem;
             border: 1px solid #43c887;
             padding: 0.16rem 0.58rem;
             letter-spacing: 2px;
