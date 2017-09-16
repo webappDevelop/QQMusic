@@ -1,21 +1,24 @@
 
 <template>
     <footer :class="cutSchema ? '' : 'footer'">
-        <div class="footerPlay" v-show="cutSchema" @click="cutSchema=0">
-            <div class="footerPlay-cd" ref="footercd">
-                <img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
+        <div class="footerPlay" v-show="cutSchema" @click="unfold">
+            <div class="footerPlay-noPlay" v-show="!songJons">QQ音乐 听你想听的歌</div>
+            <div class="footerPlay-cd" ref="footercd" v-show="songJons">
+                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
             </div>
-            <div class="footerPlay-name">
-                <h3 v-text="presentPlay.album.name"></h3>
-                <h4 v-text="presentPlay.title"></h4>
+            <div class="footerPlay-name" v-if="songJons">
+                <h3 v-text="presentPlay.title"></h3>
+                <h4 v-text="presentPlay.album.name"></h4>
             </div>
-            <a><img class="footerPlay-play" ref="footerPlayPlay" @click.stop="play" src="../assets/img/icon-transmit.svg" alt=""></a>
-            <a><img class="footerPlay-list" @click.stop="poppingSongList" src="../assets/img/icon-song-list-foot.svg" alt=""></a>
+            <div>
+                <a><img class="footerPlay-play" ref="footerPlayPlay" @click.stop="play" src="../assets/img/icon-transmit.svg" alt=""></a>
+                <a><img class="footerPlay-list" @click.stop="poppingSongList" src="../assets/img/icon-song-list-foot.svg" alt=""></a>
+            </div>
         </div>
-        <div class="play-music" v-show="!cutSchema">
+        <div class="play-music" v-show="!cutSchema && presentPlay">
             <div class="play-header">
                 <a @touchstart="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
-                <h1 class="play-name" v-text="presentPlay.album.name">Just Dance</h1>
+                <h1 class="play-name" v-text="presentPlay && presentPlay.title">Just Dance</h1>
                 <a href="#"><img class="play-more" src="../assets/img/icon-more.svg" alt=""></a>
             </div>
 
@@ -23,7 +26,7 @@
                 <div class="masterplate-one">
                     <div class="author">
                         <div class="author-hr"></div>
-                        <h2 class="author-name" v-text="presentPlay.title"></h2>
+                        <h2 class="author-name" v-text="presentPlay && presentPlay.album.name"></h2>
                         <div class="author-hr"></div>
                     </div>
                     <div class="acoustic">
@@ -34,7 +37,7 @@
                     <div class="special">
                         <div class="cd">
                             <div class="special-cd" ref="playcd">
-                                <img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
+                                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
                             </div>
                         </div>
                     </div>
@@ -74,9 +77,9 @@
                 <audio class="audio" ref="audio"></audio>
             </div>
         </div>
-        <div class="setting" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt=""></div>
-        <div :class="cutSchema ? '' : 'setting2'"></div>
-        <div class="songList" v-show="songlist">
+        <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt=""></div>
+        <div :class="cutSchema ? '' : 'setting2'" v-if="presentPlay"></div>
+        <div class="songList" v-show="songlist" v-if="songJons">
             <div class="songList-list">
             <div class="songList-option">
                 <a>
@@ -138,7 +141,7 @@
                 audio: 0,
                 songlist: 0,
                 presentPlay: JSON.parse(localStorage.getItem("currentPlay")),
-                songJons: JSON.parse(localStorage.getItem("music")),
+                songJons: JSON.parse(localStorage.getItem("localmusic")),
                 cutPlayPattern: '/src/assets/img/icon-list-circulation.svg',
                 cutPlayPatternEx: '列表循环',
                 music: 0
@@ -148,12 +151,14 @@
             
             this.audio = this.$refs.audio;
             window.addEventListener("setItemEvent",  (e)=> {
-                
+                this.presentPlay = JSON.parse(localStorage.getItem("currentPlay"));
+                this.songJons = JSON.parse(localStorage.getItem("localmusic"));
                 if(e.newKey === "currentPlay"){
                     this.presentPlay = JSON.parse(e.newValue);
                     this.cut = 1;
                     this.music.init();
                     this.music.transmit();
+                    
                 }
                 
             });
@@ -171,7 +176,7 @@
                 transmit: function(){
                     
                     this.item.cut = !this.item.cut;
-                    
+                    console.log(this.item.audio);
                     var frame = ()=>{
                         this.item.count+=0.1;
                         this.playcd.style = "transform: rotate("+this.item.count+"deg)";
@@ -181,7 +186,6 @@
 
                     if( this.item.cut ){
                         this.item.audio.src = `http://ws.stream.qqmusic.qq.com/${this.item.presentPlay.id}.m4a?fromtag=46`;
-                        this.item.audio.load;
                         this.item.audio.play();
                         this.palyTransmit.src = suspend;
                         this.footerPlayPlay.src = suspend;
@@ -355,19 +359,22 @@
 
             },
             poppingSongList(){
+                
+                if( this.songJons ){
+                    this.songlist = 1;
 
-                this.songlist = 1;
+                    //等待渲染完成后执行
+                    this.$nextTick(() => {
 
-                //等待渲染完成后执行
-                this.$nextTick(() => {
+                        var MusicList = document.querySelector('.MusicList');
+                        var MusicListSongPlay = document.querySelector('.MusicList-song-play');
+                        var top = MusicListSongPlay.offsetTop;//offsetTop参考父类最近的地位元素
+                        
+                        MusicList.scrollTop = top;
 
-                    var MusicList = document.querySelector('.MusicList');
-                    var MusicListSongPlay = document.querySelector('.MusicList-song-play');
-                    var top = MusicListSongPlay.offsetTop;//offsetTop参考父类最近的地位元素
-                    
-                    MusicList.scrollTop = top;
-
-                });
+                    });
+                }
+                
 
             },
             cutmodel( event ){
@@ -415,6 +422,13 @@
 
                 if( this.repeat == 1 || this.repeat == 2 ){
                     this.music.switch(1);
+                }
+
+            },
+            unfold(){
+
+                if( this.songJons ){
+                    this.cutSchema = 0;
                 }
 
             }

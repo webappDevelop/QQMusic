@@ -69,6 +69,10 @@ ul{
 
     }
 
+    &-noPlay{
+        font-size: 0.3rem;
+    }
+
     &-name{
         text-align: left;
         flex-grow: 1;
@@ -77,6 +81,10 @@ ul{
         h3{
             font-size: 0.32rem;
             font-weight: 100;
+            width: 3rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         h4{
             font-weight: 100;
@@ -143,6 +151,12 @@ ul{
     .play-name{
         font-size: 0.38rem;
         font-weight: 100;
+        width: 4.5rem;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
     }
 
     a{
@@ -176,6 +190,7 @@ ul{
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                text-align: center;
             }
     
             &-hr{
