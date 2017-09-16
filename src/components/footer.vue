@@ -432,7 +432,7 @@
             },
             unfold(){
 
-                if( this.songJons ){
+                if( this.presentPlay ){
                     this.cutSchema = 0;
                 }
 
