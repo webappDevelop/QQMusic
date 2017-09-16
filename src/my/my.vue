@@ -6,13 +6,13 @@
                     <h1>登录听歌，畅想高品质和无损品质曲库</h1>
                 </div>
                 <div>
-                    <!-- <router-link to="/login">
+                    <router-link to="/login">
                         <button class="login-btn">立即登录</button>
-                    </router-link> -->
+                    </router-link>
                     
-                    <a data-unfinished="true">
+                    <!-- <a data-unfinished="true">
                         <button class="login-btn">立即登录</button>
-                    </a>
+                    </a> -->
                 </div>
             </div>
             <div id="login-success" v-if="isLogin != 0">
