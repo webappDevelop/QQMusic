@@ -4,11 +4,11 @@
         <div class="footerPlay" v-show="cutSchema" @click="unfold">
             <div class="footerPlay-noPlay" v-show="!songJons">QQ音乐 听你想听的歌</div>
             <div class="footerPlay-cd" ref="footercd" v-show="songJons">
-                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
+                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt="">
             </div>
             <div class="footerPlay-name" v-if="songJons">
-                <h3 v-text="presentPlay && presentPlay.title"></h3>
-                <h4 v-text="presentPlay && presentPlay.album.name"></h4>
+                <h3 v-text="presentPlay && ( presentPlay.title || presentPlay.data.songname)"></h3>
+                <h4 v-text="presentPlay && (( presentPlay.album && presentPlay.album.name) || (presentPlay.data.albumname))"></h4>
             </div>
             <div>
                 <a><img class="footerPlay-play" ref="footerPlayPlay" @click.stop="play" src="../assets/img/icon-transmit.svg" alt=""></a>
@@ -18,7 +18,7 @@
         <div class="play-music" v-show="!cutSchema && presentPlay">
             <div class="play-header">
                 <a @touchstart="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
-                <h1 class="play-name" v-text="presentPlay && presentPlay.title">Just Dance</h1>
+                <h1 class="play-name" v-text="presentPlay && (presentPlay.title || presentPlay.data.songname)">Just Dance</h1>
                 <a href="#"><img class="play-more" src="../assets/img/icon-more.svg" alt=""></a>
             </div>
 
@@ -26,7 +26,7 @@
                 <div class="masterplate-one">
                     <div class="author">
                         <div class="author-hr"></div>
-                        <h2 class="author-name" v-text="presentPlay && presentPlay.album.name"></h2>
+                        <h2 class="author-name" v-text="presentPlay && ((presentPlay.album && presentPlay.album.name) || (presentPlay.data.albumname))"></h2>
                         <div class="author-hr"></div>
                     </div>
                     <div class="acoustic">
@@ -37,7 +37,7 @@
                     <div class="special">
                         <div class="cd">
                             <div class="special-cd" ref="playcd">
-                                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
+                                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt="">
                             </div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                 <audio class="audio" ref="audio"></audio>
             </div>
         </div>
-        <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt=""></div>
+        <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt=""></div>
         <div :class="cutSchema ? '' : 'setting2'" v-if="presentPlay"></div>
         <div class="songList" v-show="songlist">
             <div class="songList-list">
@@ -94,13 +94,13 @@
                 </div>
             </div>
             <div class="MusicList">
-                <div class="MusicList-song" v-for="(item,index) in songJons" @click="popupList(index)" :class=" item.id == (presentPlay && presentPlay.id) ? 'MusicList-song-play' : '' " :key="item.id">
+                <div class="MusicList-song" v-for="(item,index) in songJons" @click="popupList(index)" :class=" item.id == presentPlay && (presentPlay.id || presentPlay.data.songid) ? 'MusicList-song-play' : '' " :key="item.id">
                     <div class="MusicList-songName">
                         <p>
-                            {{item.title}}
-                            <span> - {{item.album.name}} </span>
+                            {{item.title || item.data.songname}}
+                            <span> - {{(item.album && item.album.name) || item.data.albumname}} </span>
                         </p>
-                        <img v-show="item.id == (presentPlay && presentPlay.id)" src="../assets/img/icon-play-center.svg" alt="">
+                        <img v-show="item.id == presentPlay && (presentPlay.id || presentPlay.data.songid)" src="../assets/img/icon-play-center.svg" alt="">
                     </div>
                     <div class="MusicList-right">
                         <a><img src="../assets/img/icon-like.svg" alt=""></a>
@@ -150,13 +150,16 @@
 
         created(){
             window.addEventListener("setItemEvent",  (e)=> {
-                this.songJons = JSON.parse(localStorage.getItem("localmusic"));
-                if(e.newKey === "currentPlay"){
 
+                this.songJons = JSON.parse(localStorage.getItem("localmusic"));
+
+                if(e.newKey === "currentPlay"){
+                    
                     this.presentPlay = JSON.parse(e.newValue);
                     this.cut = 1;
                     this.music.init();
                     this.music.transmit();
+
                 }
             });
         },
@@ -186,7 +189,7 @@
                     }
 
                     if( this.item.cut ){
-                        this.item.audio.src = `http://ws.stream.qqmusic.qq.com/${this.item.presentPlay.id}.m4a?fromtag=46`;
+                        this.item.audio.src = `http://ws.stream.qqmusic.qq.com/${this.item.presentPlay.id || this.item.presentPlay.data.songid}.m4a?fromtag=46`;
                         this.item.audio.play();
                         this.palyTransmit.src = suspend;
                         this.footerPlayPlay.src = suspend;
@@ -334,7 +337,7 @@
         methods: {
             
             play(){
-// console.log(JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]))
+
                 if( !this.presentPlay ){
                     
                     localStorage.setItem("currentPlay",JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]));
