@@ -28,7 +28,7 @@
                 </router-link>
 
                 <h3 class="ranking-body-title">全球榜</h3>
-                <div class="list-of-the-world" v-for="item in sliderss.List" :key="item.id">
+                <div class="list-of-the-world" v-for="item in sliderss.List" :key="item.id"  data-unfinished="true">
                     <div class="world-select">
                         <div class="select-img" :style="'background: url('+item.pic_v12+') center center; background-size: 100%;'">
                             <div class="earphone">{{ item.listennum }}万</div>
