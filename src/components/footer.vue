@@ -17,7 +17,7 @@
         </div>
         <div class="play-music" v-show="!cutSchema && presentPlay">
             <div class="play-header">
-                <a @touchstart="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
+                <a @touchend="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
                 <h1 class="play-name" v-text="presentPlay && (presentPlay.title || presentPlay.data.songname)">Just Dance</h1>
                 <a href="#"><img class="play-more" src="../assets/img/icon-more.svg" alt=""></a>
             </div>
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="MusicList">
-                <div class="MusicList-song" v-for="(item,index) in songJons" @click="popupList(index)" :class=" item.id == presentPlay && (presentPlay.id || presentPlay.data.songid) ? 'MusicList-song-play' : '' " :key="item.id">
+                <div class="MusicList-song" v-for="(item,index) in songJons" @click="popupList(index)" :class=" (item.id || item.data.songid) == (presentPlay && (presentPlay.id || presentPlay.data.songid)) && 'MusicList-song-play'" :key="item.id">
                     <div class="MusicList-songName">
                         <p>
                             {{item.title || item.data.songname}}
@@ -299,6 +299,9 @@
                 //切歌
                 switch: function( judge ){
                     
+                    this.item.count = 0;
+                    this.playcd.style = "transform: rotate("+this.item.count+"deg)";
+                    this.footercd.style = "transform: rotate("+this.item.count+"deg)";
                     var random = Math.floor(Math.random()*this.item.songJons.length);
                     var ine = 0;
                     
@@ -307,9 +310,11 @@
                     }
 
                     if( judge == -1 || judge == 1 ){
-                        
+                        console.log(1111);
                         this.item.songJons.forEach(function(element,index) {
-                            if( element.id === this.item.presentPlay.id ){
+                            
+                            if( (element.id || element.data.songid ) === (this.item.presentPlay.id || this.item.presentPlay.data.songid) ){
+                                console.log(index);
                                 ine = index;
                             }
                         }, this);
@@ -328,9 +333,6 @@
                     
                     localStorage.setItem("currentPlay",JSON.stringify(this.item.songJons[ine]))
                     
-                    // this.init();
-                    // this.transmit();
-
                 }
             }
         },
@@ -347,7 +349,6 @@
                 }
             },
             popupList(index){
-                // console.log(JSON.stringify(this.songJons[index]));
                 localStorage.setItem("currentPlay",JSON.stringify(this.songJons[index]));
 
             },
@@ -373,7 +374,7 @@
 
                     //等待渲染完成后执行
                     this.$nextTick(() => {
-                    
+                        
                         var MusicList = document.querySelector('.MusicList');
                         var MusicListSongPlay = document.querySelector('.MusicList-song-play');
                         var top = MusicListSongPlay.offsetTop;//offsetTop参考父类最近的地位元素
