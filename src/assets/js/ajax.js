@@ -13,12 +13,21 @@ export default {
         needNewCode: 1
     },
 
-    get(url, params = {}){
-        var _this = this;
+    getJson(url){
+        return new Promise((resolve, reject) => {
+            Axios.get(url)
+            .then((response) => {
+                resolve(response)
+            }).catch((err) => {
+                reject(err)
+            });
+        });
+    },
 
+    get(url, params = {}){
         return new Promise((resolve, reject) => {
             Axios.get(url,{
-                params: Object.assign(params,_this.params)
+                params: Object.assign(params,this.params)
             }).then((response) => {
                 resolve(response)
             }).catch((err) => {
@@ -28,10 +37,8 @@ export default {
     },
 
     post(url, params = {}){
-        var _this = this;
-        
         return new Promise((resolve, reject) => {
-            Axios.get(url, Object.assign(params,_this.params))
+            Axios.get(url, Object.assign(params,this.params))
                 .then((response) => {
                     resolve(response)
                 }).catch((err) => {

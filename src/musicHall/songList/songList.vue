@@ -1,12 +1,12 @@
 <template>
   <div id="songList" class="songList">
       <div class="songList-mod">
-        <div class="songList-menu-btn2" :style="'background: url('+data.cdlist[0].logo+') center center; background-size: 100%;'">
+        <div class="songList-menu-btn2" v-if="cdlist" :style="'background: url('+cdlist[0].logo+') center center; background-size: 100%;'">
             <router-link to="musicHall">
                 <img src="../ranking/img/the-left-arrow.svg">
             </router-link>
 
-            <div class="menu-title" v-text="data && data.cdlist[0].dissname"></div>
+            <div class="menu-title" v-text="cdlist && cdlist[0].dissname"></div>
         </div>
 
         <div class="songList-listSelect">
@@ -22,24 +22,21 @@
 
         <div id="songList-left-body" :class="index !== 0 && 'display'">
             <ul>
-                <li v-for="(item, index) in data.cdlist[0].songlist" :key="index">
-                    <div class="songList-musicMessage">
+                <li v-for="(item, index) in songlist" :key="index">
+                    <div class="songList-musicMessage" @click="play(index)">
                         <div class="songList-messageTitle">
                             <title v-text="item.title"></title>
                             <img src="../ranking/ListOfSongs/img/SQ.svg" >
                             <img src="../ranking/ListOfSongs/img/MV2.svg" >
                             <img src="../ranking/ListOfSongs/img/exclusive.svg">
                         </div>
-                        <div class="songList-singerMessage">
-                           {{item.album.name}}
-                        </div>
+                        <div class="songList-singerMessage" v-text="item.album.name"></div>
                     </div>
                 </li>
             </ul>
         </div>
 
-        <div id="songList-right-body" :class="index !== 1 && 'display'" v-html="data.cdlist[0].desc">
-        </div>
+        <div id="songList-right-body" :class="index !== 1 && 'display'" v-if="cdlist" v-html="cdlist[0].desc"></div>
       </div>
   </div>
 </template>
@@ -52,7 +49,8 @@
             return {
                 index: 0,
                 data: null,
-                songlist: null
+                songlist: null,
+                cdlist: null
             }
         },
 
@@ -77,27 +75,28 @@
             },{param: 'jsonpCallback', name: 'jp0'});
 
             this.data = data;
-            this.songlist = data.cdlist.songlist;
+            this.cdlist = data.cdlist;
+            this.songlist = this.cdlist[0].songlist;
 
-            for( var i=0; i<this.data.cdlist[0].songlist.length; i++ ){
-                this.data.cdlist[0].songlist[i].album.name = this.data.cdlist[0].songlist[0].singer[i].name+'  · '+this.data.cdlist[0].songlist[i].album.name;
+            for( var i=0; i<this.cdlist[0].songlist.length; i++ ){
+                this.songlist[i].album.name = this.songlist[0].singer[0].name+'  · '+this.songlist[i].album.name;
             }
-
-            
-
-            console.log( this.songlist );
-            console.log( this.data.cdlist[0].songlist[0].singer[0].name, this.data.cdlist[0].songlist[0].album.name );
         },
 
         methods: {
             switchClick( index ){
                 this.index = index;
+            },
+
+            play( index ){
+                localStorage.setItem('localmusic',JSON.stringify(this.songlist));
+                localStorage.setItem('currentPlay',JSON.stringify(this.songlist[index]));
             }
         }
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .display{
         display: none;
     }
@@ -221,7 +220,7 @@
 
         .songList-messageTitle{
             width: 90%;
-            height: calc( 50% - 0.2rem );
+            height: 0.4rem;
             font-size: 0.3rem;
             color: #000;
             padding-top: 0.2rem;
@@ -244,7 +243,7 @@
 
     .songList-singerMessage{
         width: 75%;
-        height: 0.6rem;
+        height: 50%;
         font-size: 0.22rem;
         line-height: 0.6rem;
         white-space: nowrap;

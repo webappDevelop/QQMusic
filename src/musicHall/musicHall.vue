@@ -2,7 +2,7 @@
     <div class="box">
         <div class="MusicHall">
             <div class="classifyMenu">
-                <div class="singer">
+                <div class="singer" data-unfinished="true">
                     <img src="./img/singer.svg" />
                     <i>歌手</i>
                 </div>
@@ -10,19 +10,19 @@
                     <img src="./img/ranking-list.svg" />
                     <i>排行</i>
                 </router-link>
-                <div class="broadcasting">
+                <div class="broadcasting" data-unfinished="true">
                     <img src="./img/broadcasting-station.svg" />
                     <i>电台</i>
                 </div>
-                <div class="classify">
+                <div class="classify" data-unfinished="true">
                     <img src="./img/classify.svg" />
                     <i>分类歌单</i>
                 </div>
-                <div class="mv">
+                <div class="mv" data-unfinished="true">
                     <img src="./img/mv.svg" />
                     <i>视频MV</i>
                 </div>
-                <div class="special">
+                <div class="special" data-unfinished="true">
                     <img src="./img/special.svg" />
                     <i>数字专辑</i>
                 </div>
@@ -31,7 +31,7 @@
             <div class="ListTheMenu">
                 <div class="MusicLibraryTitle">
                     <div class="title">歌单推荐</div>
-                    <img src="./img/pull-down-menu.svg">
+                    <img src="./img/pull-down-menu.svg" data-unfinished="true">
                 </div>
 
                 <div class="PlaylistRecommended-body">
@@ -48,25 +48,25 @@
             <div class="ListTheMenu">
                 <div class="MusicLibraryTitle">
                     <div class="title">新歌速递</div>
-                    <img src="./img/pull-down-menu.svg">
+                    <img src="./img/pull-down-menu.svg" data-unfinished="true">
                 </div>
 
                 <div class="newSong-body">
-                    <div class="individual">
+                    <div class="individual" data-unfinished="true">
                         <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
                             <h3>新歌</h3>
                         </div>
                         <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
                     </div>
 
-                    <div class="individual">
+                    <div class="individual" data-unfinished="true">
                         <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
                             <h3>新碟</h3>
                         </div>
                         <h3>催泪大杀器！盘点演唱会经典万人大合唱呵呵哈哈哈</h3>
                     </div>
 
-                    <div class="individual">
+                    <div class="individual" data-unfinished="true">
                         <div class="individual-img" style="background: url('http://p.qpic.cn/music_cover/1Fr9IFMhWDPeUzWKVEjn3QTL2eX2QziaJmaL0ZAmsvtW71ic9IDUoYzg/300?n=1') center center; background-size: 100%;">
                             <h3>影视</h3>
                         </div>
@@ -78,26 +78,26 @@
             <div class="ListTheMenu">
                 <div class="MusicLibraryTitle">
                     <div class="title">专栏</div>
-                    <img src="./img/pull-down-menu.svg">
+                    <img src="./img/pull-down-menu.svg" data-unfinished="true">
                 </div>
 
                 <div class="column-body">
-                    <div class="column-individual">
+                    <div class="column-individual" data-unfinished="true">
                         <img src="./img/140625.jpg">
                         <h3>郑秀文 | 45载又如何，你依旧不可取替</h3>
                     </div>
 
-                    <div class="column-individual">
+                    <div class="column-individual" data-unfinished="true">
                         <img src="./img/140625.jpg">
                         <h3>任贤齐 | 所有等待都是你光芒万丈前的洗礼</h3>
                     </div>
 
-                    <div class="column-individual">
+                    <div class="column-individual" data-unfinished="true">
                         <img src="./img/140625.jpg">
                         <h3>零点乐话 | 一个新生的恋爱日记</h3>
                     </div>
 
-                    <div class="column-individual">
+                    <div class="column-individual" data-unfinished="true">
                         <img src="./img/140625.jpg">
                         <h3>乐谈 | 国产良心，动画电影原声大赏</h3>
                     </div>

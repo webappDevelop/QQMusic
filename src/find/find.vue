@@ -1,56 +1,60 @@
 
 <template>
     <div class="outContainer" @touchstart="touchstart($event)" @touchmove="touchmove($event)" @touchend="touchend($event)">
-        <div class="top-img">
-            <div class="topImg-content">
-                <div class="find-mgz">
-                    <p>发现·杂志</p>
-                </div>
-                <div class="topImg-title">
-                    <div>
-                        <p>不懂这些</p>
-                        <p>也配穿GUCCI？</p>
-                        <p>音乐圈怪物指南</p>
+        <a href="#">
+            <div class="top-img" ref="topImg">
+                <div class="topImg-content">
+                    <div class="find-mgz">
+                        <p>发现·杂志</p>
+                    </div>
+                    <div class="topImg-title">
+                        <div>
+                            <p>不懂这些</p>
+                            <p>也配穿GUCCI？</p>
+                            <p>音乐圈怪物指南</p>
+                        </div>
+                    </div>
+                    <div class="click-browse">
+                        <span>////////////</span>
+                        <span>点击浏览</span>
+                    </div>
+                    <div class="sort">
+                        <p>歌词   已是两条路上的人 -赵雷</p>
+                        <p>日历   《顽童乐队 Monkee》</p>
+                        <p>歌单   感觉过了一世纪，原来今天才周二</p>
                     </div>
                 </div>
-                <div class="click-browse">
-                    <span>////////////</span>
-                    <span>点击浏览</span>
-                </div>
-                <div class="sort">
-                    <p>歌词   已是两条路上的人 -赵雷</p>
-                    <p>日历   《顽童乐队 Monkee》</p>
-                    <p>歌单   感觉过了一世纪，原来今天才周二</p>
-                </div>
             </div>
-        </div>
+        </a>
 
-        <div class="bottom-box" :style="moveStyle">
-            <div v-for="(item,index) in dutrusionList" :key="index" class="container">
-                <div class="detrusion-news">
-                    <div class="detrusion-content">
-                        <h2 class="detrusion-title" v-text="item.title"></h2>
-                        <div class="singer">
-                            <div>
-                                <img src="./img/musicLogo.svg" alt="">
+        <template v-for="(fdItem,index) in findList">
+            <div class="bottom-box" :key="index">
+                <a href="#">
+                    <div v-for="(item,index) in fdItem.list" :key="index" class="container">
+                        <div class="detrusion-news">
+                            <div class="detrusion-content">
+                                <h2 class="detrusion-title" v-text="item.title"></h2>
+                                <div class="singer">
+                                    <div>
+                                        <img src="./img/musicLogo.svg" alt="">
+                                    </div>
+                                    <span v-text="item.singer"></span>
+                                </div>
+
+                                <div class="details">
+                                    <span class="music-type" v-text="item.team"></span>
+                                    <span class="reading-quantity" v-text="item.reading"></span>
+                                </div>
                             </div>
-                            <span v-text="item.singer"></span>
-                        </div>
-
-                        <div class="details">
-                            <span class="music-type" v-text="item.team"></span>
-                            <span class="reading-quantity" v-text="item.reading"></span>
+                            <div class="detrusion-imgBox">
+                                <img :src="item.picUrl" alt="">
+                            </div>
                         </div>
                     </div>
-                    <div class="detrusion-imgBox">
-                        <img :src="item.picUrl" alt="">
-                    </div>
-                </div>
+                </a>
+                <compo-carousel v-if="fdItem.sliders" :sliders="fdItem.sliders"></compo-carousel>
             </div>
-
-            <!-- 轮播 -->
-            <compo-carousel :sliders="sliders"></compo-carousel>
-        </div>
+        </template>
     </div> 
 </template>
 
@@ -66,12 +70,19 @@
     .outContainer{
         height: calc(100% - 2.68rem);
         overflow: auto;
+        a{
+            text-decoration: none !important;
+        }
     }
 
     .top-img{
         width: 7.5rem;
         background: url('./img/topImg.png');
         background-size: cover;
+    }
+
+    .bottom-box{
+        background: #fff;
     }
 
     .topImg-content{
@@ -141,8 +152,6 @@
         flex: 1;
         margin-left: 0.46rem;
     }
-
-
     .detrusion-title{
         font-size: 0.36rem;
         font-weight: normal;
@@ -165,6 +174,9 @@
                 width: 100%;
                 height: 100%;
             }
+        }
+        span{
+            color: #000 !important;
         }
     }
 
@@ -231,72 +243,62 @@
 
 <script>
 
+    import Ajax from '../assets/js/ajax.js'
     import Carousel from './components/carousel.vue'
+    import dataUrl from 'assets/falseData/falseData.json'
 
-export default {
-    data(){
-        return {
+    export default {
 
-            touchClickX: 0,
-            moveX: 0,
-            currentX: 0,
-            transition: 0,
-
-            dutrusionList:[
-                {title: '李志,让我们的生活在一起！',singer: '年年-宋冬野', team: 'SVP乐队', reading: '阅读量 1.7万', picUrl: '/src/find/img/detrusion6.png'},
-                {title: '乐坛P话|拨开版权迷雾,遇见音乐的美好!',singer: '你不是真正的快乐-五月天', team: 'SVP乐队', reading: '最新', picUrl: '/src/find/img/detrusion5.png'},
-                {title: '另类摇滚史上最后一张伟大的专辑',singer: 'Heart-Shaped Box-Nrvana', team: '摇滚天空', reading: '最新', picUrl: '/src/find/img/detrusion4.png'},
-                {title: '暗恋,是一场盛大的独角戏',singer: '普通人-好妹妹乐队', team: 'SVP乐队', reading: '阅读量 1.7万', picUrl: '/src/find/img/detrusion3.png'},
-                {title: '【零点生活】 温柔与慈悲-新生恋爱日记',singer: '零点乐话-开场白-DJ伍洲彤', team: 'DJ伍洲彤', reading: '最新', picUrl: '/src/find/img/detrusion.png'},
-                {title: '时光如梭! GD带着BIGBANG已越走越远',singer: 'Black-G-DRAGON', team: 'BlackLable', reading: '999+人点赞', picUrl: '/src/find/img/detrusion2.png'}
-            ],
-            sliders: [
-                {id: 0, linkUrl:'#', picUrl: '/src/find/img/carousel.png'},
-                {id: 1, linkUrl:'#', picUrl: '/src/find/img/carousel.png'},
-                {id: 2, linkUrl:'#', picUrl: '/src/find/img/carousel.png'},
-                {id: 3, linkUrl:'#', picUrl: '/src/find/img/carousel.png'}
-            ]
-        }
-    },
-
-    methods: {
-        touchstart(e){
-            this.touchClickX = e.touches[0].clientY;
-        },
-        touchmove(e){
-            let touchMoveX = e.changedTouches[0].clientY;
-
-            this.moveX = this.currentX + (touchMoveX - this.touchClickX)/100;
-        },
-        touchend(e){
-            let totality = this.$el.offsetHeight,
-                topHight = this.$el.children[0].offsetHeight,
-                offsetY = (totality - topHight) / 100;
-
-            this.transition = 100;
-            if( this.moveX>0 ){
-                this.moveX = 0;
+        data(){
+            return {
+                touchClickX: 0,
+                moveX: 0,
+                currentX: 0,
+                topImgHeight: 0,
+                findList: []
             }
-            else if(this.moveX<offsetY){
-                this.moveX = offsetY;
+        },
+
+        created(){
+
+            Ajax.getJson(dataUrl).then(res => {
+                this.findList = res.data.findList;
+            });
+        },
+
+        mounted(){
+            this.topImgHeight = this.$refs.topImg.offsetHeight;
+        },
+
+        methods: {
+            touchstart(e){
+                this.touchClickX = e.touches[0].clientY;
+            },
+            touchmove(e){
+                let touchMoveX = e.changedTouches[0].clientY;
+
+                this.topImgHeight += this.currentHeight + (touchMoveX - this.touchClickX)/100;
+            },
+            touchend(e){
+                this.currentX = this.moveX;
             }
+        },
 
-            this.currentX = this.moveX;
+        computed:{
+            moveStyle(){
+                this.moveX = this.moveX > 0 ? 0 : this.moveX;
+                // return `transform: translate3d: (${this.moveX})rem,0,0)`
+                // return `height: ${this.moveX}rem;`
+            }
+        },
 
-            setTimeout(()=>{
-               this.transition = 0;
-            },this.transition);
+        components: {
+            'compo-carousel': Carousel
         }
-    },
+}
 
-    computed:{
-        moveStyle(){
-            return `transition: all ${this.transition}ms; transform translateY(${this.moveX}rem,0,0)`
-        }
-    },
-
-    components: {
-        'compo-carousel': Carousel
-    }
+window.onscroll = (e) => {
+    e.preventDefault();
+    e.returnValue = false;
 }
 </script>

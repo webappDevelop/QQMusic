@@ -4,11 +4,11 @@
         <div class="footerPlay" v-show="cutSchema" @click="unfold">
             <div class="footerPlay-noPlay" v-show="!songJons">QQ音乐 听你想听的歌</div>
             <div class="footerPlay-cd" ref="footercd" v-show="songJons">
-                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
+                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt="">
             </div>
             <div class="footerPlay-name" v-if="songJons">
-                <h3 v-text="presentPlay.title"></h3>
-                <h4 v-text="presentPlay.album.name"></h4>
+                <h3 v-text="presentPlay && ( presentPlay.title || presentPlay.data.songname)"></h3>
+                <h4 v-text="presentPlay && (( presentPlay.album && presentPlay.album.name) || (presentPlay.data.albumname))"></h4>
             </div>
             <div>
                 <a><img class="footerPlay-play" ref="footerPlayPlay" @click.stop="play" src="../assets/img/icon-transmit.svg" alt=""></a>
@@ -17,16 +17,16 @@
         </div>
         <div class="play-music" v-show="!cutSchema && presentPlay">
             <div class="play-header">
-                <a @touchstart="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
-                <h1 class="play-name" v-text="presentPlay && presentPlay.title">Just Dance</h1>
-                <a href="#"><img class="play-more" src="../assets/img/icon-more.svg" alt=""></a>
+                <a @click="cutSchema=1"><img class="play-menu" src="../assets/img/icon-menu.svg" alt=""></a>
+                <h1 class="play-name" v-text="presentPlay && (presentPlay.title || presentPlay.data.songname)">Just Dance</h1>
+                <a href="#"><img class="play-more" data-unfinishd="true" src="../assets/img/icon-more.svg" alt=""></a>
             </div>
 
             <div class="content">
                 <div class="masterplate-one">
                     <div class="author">
                         <div class="author-hr"></div>
-                        <h2 class="author-name" v-text="presentPlay && presentPlay.album.name"></h2>
+                        <h2 class="author-name" v-text="presentPlay && ((presentPlay.album && presentPlay.album.name) || (presentPlay.data.albumname))"></h2>
                         <div class="author-hr"></div>
                     </div>
                     <div class="acoustic">
@@ -37,13 +37,13 @@
                     <div class="special">
                         <div class="cd">
                             <div class="special-cd" ref="playcd">
-                                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt="">
+                                <img v-if="presentPlay" :src="`https://y.gtimg.cn/music/photo_new/T002R500x500M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt="">
                             </div>
                         </div>
                     </div>
                     <div class="lyric">
-                        <span>Da da doo doot-n</span>
-                        <a class="lyric-desktop"><img src="../assets/img/icon-desktop.svg" alt=""></a>
+                        <!-- <span>Da da doo doot-n</span> -->
+                        <a class="lyric-desktop"><img data-unfinishd="true" src="../assets/img/icon-desktop.svg" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -69,17 +69,17 @@
                     <a @click="poppingSongList"><img class="paly-select" src="../assets/img/icon-song-list.svg" alt=""></a>
                 </div>
                 <div class="play-option">
-                    <a><img class="addLike" src="../assets/img/icon-like.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-download.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-share.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-comment.svg" alt=""></a>
+                    <a><img data-unfinishd="true" class="addLike" src="../assets/img/icon-like.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-download.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-share.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-comment.svg" alt=""></a>
                 </div>
                 <audio class="audio" ref="audio"></audio>
             </div>
         </div>
-        <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R150x150M000${presentPlay.album.mid}.jpg`" alt=""></div>
+        <div class="setting" v-if="presentPlay" v-show="!cutSchema"><img :src="`https://y.gtimg.cn/music/photo_new/T002R500x500M000${(presentPlay.album && presentPlay.album.mid) || presentPlay.data.albummid}.jpg`" alt=""></div>
         <div :class="cutSchema ? '' : 'setting2'" v-if="presentPlay"></div>
-        <div class="songList" v-show="songlist" v-if="songJons">
+        <div class="songList" v-show="songlist">
             <div class="songList-list">
             <div class="songList-option">
                 <a>
@@ -88,19 +88,19 @@
                     <span v-text="cutPlayPatternEx"></span>
                 </a>
                 <div class="songList-options">
-                    <a><img src="../assets/img/icon-download.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-add-List.svg" alt=""></a>
-                    <a><img src="../assets/img/icon-empty-list.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-download.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-add-List.svg" alt=""></a>
+                    <a><img data-unfinishd="true" src="../assets/img/icon-empty-list.svg" alt=""></a>
                 </div>
             </div>
             <div class="MusicList">
-                <div class="MusicList-song" @click="popupList(index)" :class=" item.id == presentPlay.id ? 'MusicList-song-play' : '' " :key="item.id" v-for="(item,index) in songJons">
+                <div class="MusicList-song" v-for="(item,index) in songJons" @click="popupList(index)" :class=" (item.id || item.data.songid) == (presentPlay && (presentPlay.id || presentPlay.data.songid)) && 'MusicList-song-play'" :key="item.id">
                     <div class="MusicList-songName">
                         <p>
-                            {{item.title}}
-                            <span> - {{item.album.name}} </span>
+                            {{item.title || item.data.songname}}
+                            <span> - {{(item.album && item.album.name) || item.data.albumname}} </span>
                         </p>
-                        <img v-show="item.id == presentPlay.id" src="../assets/img/icon-play-center.svg" alt="">
+                        <img v-show="item.id == (presentPlay && (presentPlay.id || presentPlay.data.songid))" src="../assets/img/icon-play-center.svg" alt="">
                     </div>
                     <div class="MusicList-right">
                         <a><img src="../assets/img/icon-like.svg" alt=""></a>
@@ -122,7 +122,6 @@
     import circulate from '../assets/img/icon-list-circulation.svg' //列表循环
     import one from '../assets/img/icon-one-circulate.svg' //单曲循环
     import random from '../assets/img/icon-random-circulate.svg' //随机播放
-    import base64 from 'js-base64'//歌词解析
     import ajax from '../assets/js/ajax.js'
 
     export default {
@@ -140,29 +139,34 @@
                 count: 0,
                 audio: 0,
                 songlist: 0,
-                presentPlay: JSON.parse(localStorage.getItem("currentPlay")),
-                songJons: JSON.parse(localStorage.getItem("localmusic")),
-                cutPlayPattern: '/src/assets/img/icon-list-circulation.svg',
+                presentPlay: null,
+                songJons: null,
+                cutPlayPattern: circulate,
                 cutPlayPatternEx: '列表循环',
                 music: 0
             }
         },
-        mounted: function(){
-            
-            this.audio = this.$refs.audio;
+
+        created(){
             window.addEventListener("setItemEvent",  (e)=> {
-                this.presentPlay = JSON.parse(localStorage.getItem("currentPlay"));
+                
                 this.songJons = JSON.parse(localStorage.getItem("localmusic"));
+
                 if(e.newKey === "currentPlay"){
+                    this.audio = this.$refs.audio;
                     this.presentPlay = JSON.parse(e.newValue);
+                    this.audio.src = `http://ws.stream.qqmusic.qq.com/${this.presentPlay.id || this.presentPlay.data.songid}.m4a?fromtag=46`;
                     this.cut = 1;
                     this.music.init();
                     this.music.transmit();
-                    
-                }
-                
-            });
 
+                }
+            });
+        },
+
+        mounted: function(){
+            this.audio = this.$refs.audio;
+            
             this.music = {
                 
                 item: this,
@@ -176,7 +180,7 @@
                 transmit: function(){
                     
                     this.item.cut = !this.item.cut;
-                    console.log(this.item.audio);
+                    
                     var frame = ()=>{
                         this.item.count+=0.1;
                         this.playcd.style = "transform: rotate("+this.item.count+"deg)";
@@ -185,12 +189,11 @@
                     }
 
                     if( this.item.cut ){
-                        this.item.audio.src = `http://ws.stream.qqmusic.qq.com/${this.item.presentPlay.id}.m4a?fromtag=46`;
                         this.item.audio.play();
                         this.palyTransmit.src = suspend;
                         this.footerPlayPlay.src = suspend;
                         frame();
-
+                        
                     }else{
                         this.item.audio.pause();
                         this.palyTransmit.src = paly;
@@ -295,6 +298,9 @@
                 //切歌
                 switch: function( judge ){
                     
+                    this.item.count = 0;
+                    this.playcd.style = "transform: rotate("+this.item.count+"deg)";
+                    this.footercd.style = "transform: rotate("+this.item.count+"deg)";
                     var random = Math.floor(Math.random()*this.item.songJons.length);
                     var ine = 0;
                     
@@ -303,10 +309,10 @@
                     }
 
                     if( judge == -1 || judge == 1 ){
-                        
                         this.item.songJons.forEach(function(element,index) {
-                            if( element.id === this.item.presentPlay.id ){
-                                console.log(index);
+                            
+                            if( (element.id || element.data.songid ) === (this.item.presentPlay.id || this.item.presentPlay.data.songid) ){
+                                
                                 ine = index;
                             }
                         }, this);
@@ -323,24 +329,22 @@
 
                     }
                     
-                    
                     localStorage.setItem("currentPlay",JSON.stringify(this.item.songJons[ine]))
                     
-                    // this.init();
-                    // this.transmit();
-
                 }
             }
         },
         methods: {
             
             play(){
-                
-                this.music.transmit();
 
+                if( !this.presentPlay ){
+                    localStorage.setItem("currentPlay",JSON.stringify(JSON.parse(localStorage.getItem("localmusic"))[0]));
+                }else{
+                    this.music.transmit();
+                }
             },
             popupList(index){
-
                 localStorage.setItem("currentPlay",JSON.stringify(this.songJons[index]));
 
             },
@@ -361,11 +365,12 @@
             poppingSongList(){
                 
                 if( this.songJons ){
+
                     this.songlist = 1;
 
                     //等待渲染完成后执行
                     this.$nextTick(() => {
-
+                        
                         var MusicList = document.querySelector('.MusicList');
                         var MusicListSongPlay = document.querySelector('.MusicList-song-play');
                         var top = MusicListSongPlay.offsetTop;//offsetTop参考父类最近的地位元素
