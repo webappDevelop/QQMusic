@@ -48,25 +48,13 @@ export default {
     },
     methods: {
         play(index){
-            localStorage.setItem('music',JSON.stringify(this.songslist));
-            localStorage.setItem('currentPlay',JSON.stringify(this.songslist[index]));
+
+           localStorage.setItem('currentPlay',JSON.stringify(this.songslist[index]));
 
         }
     },
     created(){
-        ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
-            new_format:1,
-            pic:500,
-            disstid:2646688496,
-            type:1,
-            json:1,
-            utf8:1,
-            onlysong:0,
-            nosign:1
-        },{param: 'jsonpCallback', name: 'jp0'}).then(res => {
-            this.songslist = res.cdlist[0].songlist;
-
-        })
+         this.songslist = JSON.parse(localStorage.getItem('localmusic'));
     }
 }
 </script>
@@ -128,7 +116,7 @@ export default {
                 position: absolute;
                 top: 0;
                 bottom: 0;
-                right: .2rem;
+                right: .4rem;
                 margin: auto;
             }
             span{

@@ -28,30 +28,30 @@
             <div class="user-option">
                 <div>
                     <router-link to="/localMusic">
-                        <img src="./img/icon-song-list.svg">
+                        <img src="./img/icon-song-list.png">
                         <p>本地歌曲</p>
                         <p><span v-text="songNum"></span></p>
                     </router-link> 
                 </div>
                 <div>
-                    <img src="./img/icon-download.svg">
+                    <img src="./img/icon-download.png">
                     <p>下载歌曲</p>
                     <p><span></span></p>
                 </div> 
                 <div>
                     <router-link to="/history">
-                        <img src="./img/icon-play-lately.svg">
+                        <img src="./img/icon-play-lately.png">
                         <p> 最近播放</p>
                         <p><span></span></p>
                     </router-link> 
                 </div>
                 <div>
-                    <img src="./img/icon-mylike.svg">
+                    <img src="./img/icon-mylike.png">
                     <p>我喜欢</p>
                     <p><span></span></p>
                 </div>
                 <div>
-                    <img src="./img/icon-play-mv.svg">
+                    <img src="./img/icon-play-mv.png">
                     <p>下载MV</p>
                 </div> 
                 <div>
@@ -156,6 +156,9 @@
 
 
 <script>
+
+    import ajax from '../assets/js/ajax.js'
+
     export default {
         data(){
             return{
@@ -163,7 +166,8 @@
                 isShow: 1,
                 isLogin: 1,
                 songNum: null,
-                time: 1
+                time: 1,
+                localmusic: []
             }
         },
         methods:{
@@ -172,8 +176,25 @@
             }
         },
         created(){
-            var arr = JSON.parse(localStorage.getItem('music'));
-            this.songNum = arr.length;
+            // var arr = JSON.parse(localStorage.getItem('music'));
+            // console.log(arr)
+            // if( arr){
+            //     this.songNum = arr.length;
+            // }
+            ajax.jsonp('//c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',{
+                new_format:1,
+                pic:500,
+                disstid:2646688496,
+                type:1,
+                json:1,
+                utf8:1,
+                onlysong:0,
+                nosign:1
+            },{param: 'jsonpCallback', name: 'jp0'}).then(res => {
+                this.localmusic = res.cdlist[0].songlist;
+                this.songNum = this.localmusic.length;
+                localStorage.setItem('localmusic',JSON.stringify(this.localmusic));
+            })
 
         },
         mounted(){
