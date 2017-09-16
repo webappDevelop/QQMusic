@@ -22,7 +22,7 @@
 
         <div id="left-body" :class="index !== 0 && 'display'">
             <ul>
-                <li v-for="(item, index) in toplist && toplist.songlist" :key="index">
+                <li @click="play(index)" v-for="(item, index) in toplist && toplist.songlist" :key="index">
                     <div class="musicRanking">
                         <i>{{ ++index }}</i>
                         <span>{{ item.in_count }}%</span>
@@ -86,12 +86,17 @@
                 }
             }
 
-            console.log( this.toplist.songlist[0].data.singer[0].name );
+            // console.log( this.toplist.songlist[0].data.singer[0].name );
         },
 
         methods: {
             switchClick( index ){
                 this.index = index;
+            },
+            play( index ){
+                // console.log(this.toplist.songlist);
+                localStorage.setItem('localmusic',JSON.stringify(this.toplist.songlist));
+                localStorage.setItem('currentPlay',JSON.stringify(this.toplist.songlist[index]));
             }
         }
     }
