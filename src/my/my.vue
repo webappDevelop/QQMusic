@@ -463,12 +463,11 @@
             justify-content: center;
             .center{
                 position: absolute;
-                top: 0.1rem;
-                left: .24rem;
+                top: 0.01rem;
+                left: .27rem;
                 width: 0.22rem;
             }
             img{
-                float: left;
                 margin-right: 0.05rem;
             }
             .flexd{
@@ -493,9 +492,22 @@
             padding: 0.13rem .16rem;
             border: 1px solid #bdbdbd;
             border-radius: 0.44rem;
+            position: relative;
+            padding-left: 0.6rem;
+            img{
+                position: absolute;
+                left: 0.2rem;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+        }
+        .listen-time{
+            float: right;
         }
         .dredge-green{
             position: relative;
+            float: left;
         }
         .user-area{
             display: flex;
@@ -535,6 +547,7 @@
         font-size: 0;
         p{
             margin: 0;
+            margin-top: 0.1rem;
             text-align: center;
         }
         span{
@@ -556,7 +569,7 @@
             float: left;
             height: 1.50rem;
             justify-content: center;
-            font-size: .32rem;
+            font-size: .3rem;
             margin-top: .4rem;
         }
         
